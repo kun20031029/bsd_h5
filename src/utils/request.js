@@ -36,8 +36,7 @@ service.interceptors.response.use(
   response => {
     if (
       response &&
-      response.data.code === "701" &&
-      response.data.code != '200'
+      response.data.code === "701"
     ) {
       // store.commit('REMOVE_TOKEN')
       removeToken()
@@ -48,7 +47,7 @@ service.interceptors.response.use(
       if(response.data.code == 200){
         return response.data
       }else{
-        Toast.error(error.msg);
+        Toast.fail(response.data.msg);
       }
 
 
@@ -58,9 +57,9 @@ service.interceptors.response.use(
     console.log('err' + error)
     if (error && error.response) {
 
-      Toast.error(error.msg);
+      Toast.fail(error.msg);
     } else {
-      Toast.error({
+      Toast.fail({
         message: '网络超时，请检查您的网络',
         duration: 5000
       })

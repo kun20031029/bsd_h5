@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import login from '@/page/login'
 import index from '@/page/index'
 import task from '@/page/task'
+import details from '@/page/details'
+import setClass from '@/page/setclass'
 
 Vue.use(Router)
 
@@ -28,6 +30,16 @@ export default new Router({
       path: '/task',
       name: 'task',
       component: task
-    }
+    },
+    {
+      path: '/details',
+      name: 'details',
+      component: details
+    },
+    {
+      path: '/setClass',
+      name: 'setClass',
+      component: setClass
+    },
   ]
 })

@@ -56,7 +56,13 @@ export default {
       }
     },
     itemClick(item){
-
+      this.$router.push({
+        path: '/details',
+        query: {
+          type:this.type,
+          id:item.id
+        }
+      })
     }
   }
 

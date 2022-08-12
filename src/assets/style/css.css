@@ -130,6 +130,13 @@ div:focus {
 .my-icon-ybicon{
   background-image: url("../img/i4.png") ;
 }
+.my-icon-file{
+  background-image: url("../img/i6.png") ;
+  background-size:17px 19px;
+  width:17px;
+  height: 19px;
+  vertical-align: middle;
+}
 .block-w{
   background:#fff
 }
@@ -145,7 +152,19 @@ div:focus {
 .mb30{
   margin-bottom: 30px;
 }
+.bor-bt{
+  border-bottom:1px solid #efefef;
 
+}
+.pad10{
+  padding-bottom:10px;
+}
+.pad20{
+  padding-bottom:20px;
+}
+.pad30{
+  padding-bottom:30px;
+}
 .cc-head{
   display: flex;
   padding:10px 15px;
@@ -185,4 +204,19 @@ div:focus {
   flex-direction: column;
   height:100vh;
 }
+.ct-flex-content{
+  flex:1;
+  overflow-x:hidden;
+}
+.bottom-bd{
+  padding:20px;
+}
+.form-tit{
+  font-size:17px;
+  line-height: 50px;
 
+}
+.form-tit.require:before{
+  content:"*";
+  color:red;
+}

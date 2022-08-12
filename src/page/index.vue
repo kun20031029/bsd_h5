@@ -108,14 +108,13 @@ export default {
         }
       },
     clickItem(item){
-      // this.$router.push({
-      //   path: '/task',
-      //   query: {
-      //     type:this.type,
-      //     status: item.task_status,
-      //     id:item.id
-      //   }
-      // })
+      this.$router.push({
+        path: '/details',
+        query: {
+          type:this.type,
+          id:item.id
+        }
+      })
     },
     goto(type){
       this.$router.push({
