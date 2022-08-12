@@ -2,28 +2,19 @@
   <div class="home-container ct-flex-box">
     <div class="cc-head block-w">
       <div class="txt">
-        <div class="title">北师大心理学部</div>
-        <div class="tit-desc">通知详情</div>
+        <div class="title">学术硕士招生</div>
+        <div class="tit-desc">请{{ type == "1" ? "学生":"老师"}}确认</div>
       </div>
       <div class="pic">
         <img src="../assets/img/i5.png">
       </div>
     </div>
     <div class="ct-flex-content">
-      <div class="pad">
-        <div class="block-w pad-ct mb20">
-          <van-row class="mb10">
-            <van-col span="18" class="font15">{{ data.biaoti }}</van-col>
-            <van-col span="6" class="font12 fc3 ttRight">{{ data.shijian | DATEFORMATE("mm月dd日") }}</van-col>
-          </van-row>
-          <van-row>
-            <van-col span="24" class="font12 fc3 ">{{ data.neirong }}</van-col>
-          </van-row>
+      <div class="block-w">
+        <div class="s-hd">
+
         </div>
-        <div class="block-w  mb20" v-if="data.fujian">
-          <div class="font15 mb10 bor-bt pad10">附件</div>
-          <fileBox :file="data.fujian"></fileBox>
-        </div>
+
 
       </div>
 

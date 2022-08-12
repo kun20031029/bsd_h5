@@ -6,6 +6,7 @@ import index from '@/page/index'
 import task from '@/page/task'
 import details from '@/page/details'
 import setClass from '@/page/setclass'
+import guiding from '@/page/guiding'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/setClass',
       name: 'setClass',
       component: setClass
+    },
+    {
+      path: '/guiding',
+      name: 'guiding',
+      component: guiding
     },
   ]
 })

@@ -31,7 +31,9 @@
             <van-icon slot="left-icon" class-prefix="my-icon" name="code" />
           </van-field>
         </van-col>
-        <van-col span="8"> <van-button  type="primary" round class="c-btn-blue" style="float:right">获取验证码</van-button></van-col>
+        <van-col span="8">
+          <van-button  type="primary" round class="c-btn-blue" style="float:right">获取验证码</van-button>
+        </van-col>
 
       </van-row>
       <div class="ttCenter">
@@ -63,15 +65,18 @@ export default {
   methods : {
       async login(){
         let type = this.$route.query.type;
+        sessionStorage.clear();
         let res = await login({
           mobile : this.mobile,
           code : this.code
         },type);
-        console.log(res)
+
         if(res.code == 200){
           let data = res.data;
           let key = data.student || data.teacher;
+
           sessionStorage.setItem("USER",JSON.stringify(key));
+          sessionStorage.setItem("CURRENTKEY",type);
           setToken(data.token);
           this.$router.push({
             path: '/index',

@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <div class="pad block-w mb20">
-      <div class="home-tit">您好，李佳</div>
+      <div class="home-tit">您好，{{ data[typeKey] ? data[typeKey].name : '--' }}</div>
       <div class="showTab">
         <van-row>
           <van-col span="12">
@@ -10,7 +10,7 @@
                 目标学时
               </div>
               <div class="tt-desc">
-                63
+                {{ data[typeKey] && data[typeKey].jindu ? data[typeKey].jindu.total_xueshi : 0 }}
                 <span>学时</span>
               </div>
             </div>
@@ -21,7 +21,7 @@
                 已完成
               </div>
               <div class="tt-desc">
-                63
+                {{ data[typeKey] && data[typeKey].jindu ? data[typeKey].jindu.yiwancheng : 0 }}
                 <span>学时</span>
               </div>
             </div>
@@ -88,20 +88,23 @@ export default {
   data() {
     return {
       type:false,
+      typeKey : 'teacher',
       data : {
         daibanList:[],
-        yibanList:[]
+        yibanList:[],
+        teacher:{}
       }
     }
   },
 
   created(){
     this.type = this.$route.query.type;
+    this.typeKey = this.type ? "student" : "teacher";
     this.getData();
   },
   methods : {
       async getData(){
-        let res = await getIndexData();
+        let res = await getIndexData(this.type);
         if(res.code == 200){
           this.data = res.data;
           console.log(this.data)

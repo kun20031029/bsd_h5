@@ -1,4 +1,7 @@
 import Cookies from 'js-cookie'
+import router from '@/router'
+
+
 
 const TokenKey = 'teacher_token'
 

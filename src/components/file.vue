@@ -1,9 +1,8 @@
 
 <template>
   <div class="file-box" v-if="list.length">
-    {{list.length}}
     <ul>
-      <li v-for="(item,index) in list" >
+      <li v-for="(item,index) in list" v-if="item" >
         <van-icon name="file" class-prefix="my-icon"></van-icon>
         <span class="tit">{{item}}</span>
       </li>

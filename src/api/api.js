@@ -8,7 +8,7 @@ export function login(param,type) {
 //首页
 export function getIndexData(type) {
   let url = "/teacher/teacherTask/shouye";
-  if(type) url = "/student/studentTask/liebiao"
+  if(type) url = "/student/studentTask/shouye"
   return request.get(url)
 }
 //任务列表
@@ -34,13 +34,19 @@ export function getclasstype(){
   return request.get(url)
 
 }
-//获取课程
-export function getKCList(param){
+//获取课程 默认获取
+export function getCommonList(param,type){
   let url = "/teacher/paike/getKCList";
+  if(type) url = "/student/studentDaoshi/daoshiLiebiao"
   return request.post(url,param)
 }
 //提交排课要求
 export function savePk(param){
   let url = "/teacher/paike/savePaike";
+  return request.post(url,param)
+}
+//提交老师接收的学生数量
+export function saveNumStudent(param){
+  let url = "/teacher/daoshi/addXueShengNum";
   return request.post(url,param)
 }

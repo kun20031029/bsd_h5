@@ -11,7 +11,7 @@
         </div>
 
       </div>
-      <ul class="selectList">
+      <ul class="selectList" v-if="type != '1'">
         <li class="block-w" v-for="(item,idx) in list" @click="itemClick(item)">
           <van-row>
             <van-col span="18" class="font15">{{ item.chinese_name }}</van-col>
@@ -20,12 +20,28 @@
           </van-row>
         </li>
       </ul>
+      <ul class="selectList" v-else>
+        <li class="block-w" v-for="(item,idx) in list" @click="itemClick(item)">
+          <div class="card-list">
+            <img src="">
+            <van-row>
+              <van-col span="21" >
+                <span class="font15">{{ item.name }}</span>
+                <span class="font12 fc3">{{ item.name }}</span>
+              </van-col>
+              <van-col span="3" class="font12 fc3 ttRight">{{ item.cate }}</van-col>
+              <van-col span="24" class="font12 fc3 ">{{ item.xuefen }}</van-col>
+            </van-row>
+          </div>
+
+        </li>
+      </ul>
     </div>
   </van-popup>
 
 </template>
 <script>
-import { getKCList } from '@/api/api'
+import { getCommonList } from '@/api/api'
 export default{
   components:{
   },
@@ -34,6 +50,9 @@ export default{
       type: Boolean
     },
     text:{
+      type: String
+    },
+    type:{
       type: String
     }
   },
@@ -44,9 +63,9 @@ export default{
       this.$emit("closeSelect");
     },
     async getList(){
-      let res = await getKCList({
+      let res = await getCommonList({
         name: this.key
-      });
+      },(this.type == 1 ? true:false));
       if(res.code == 200){
         this.list = res.data;
       }
@@ -69,7 +88,7 @@ export default{
   data(){
     return {
       key:'',
-      list:''
+      list:[]
     }
   },
 
@@ -78,6 +97,9 @@ export default{
   }
 }
 </script>
+<style >
+@import "../assets/style/css.css";
+</style>
 <style scoped>
   .select-box{
     height:100%;
@@ -105,5 +127,8 @@ export default{
     padding: 8px 15px;
     line-height: 25px;
     border-radius: 11px;
+  }
+  .card-list{
+    display: flex;
   }
 </style>
