@@ -95,6 +95,8 @@
                 :show="popShow"
                 :text="searchKey"
                 @closeSelect="popShow=false"
+                :searchList="searchList"
+                @searchListFn="searchListFn"
                 @setItem="setClassItem"></selectPage>
     <mydialog :showDialog="dialogShow" msg="提交成功" @closeSelect="closeDialog"></mydialog>
   </div>
@@ -102,7 +104,7 @@
 
 <script>
 
-import { getwekDayClass,getclasstype,savePk } from '@/api/api'
+import { getwekDayClass,getclasstype,savePk,getCommonList } from '@/api/api'
 import selectPage from '@/components/select'
 import mydialog from '@/components/mydialog'
 
@@ -127,7 +129,8 @@ export default {
       selectTime:{},
       timeList : [],
       classList : [],
-      dialogShow:false
+      dialogShow:false,
+      searchList:[]
 
     }
   },
@@ -141,15 +144,29 @@ export default {
     this.getData();
   },
   methods : {
+    async searchListFn(key){
+      //选课
+      let kcList = await getCommonList({
+        name:key
+      },(this.type == 1 ? true:false));
+      if(kcList.code == 200){
+        this.searchList = kcList;
+      }
+    },
     setClassItem(item){
       this.form.class = item;
       this.popShow=false;
     },
+
     async getData(){
       //选时间
       let wekDay = await getwekDayClass();
       // 选教室
       let clsList = await getclasstype();
+      //选课
+      this.searchListFn();
+
+
       if(wekDay.code == 200){
         this.timeList = wekDay.data;
         this.currentTime = this.timeList[0]
@@ -157,6 +174,7 @@ export default {
       if(clsList.code == 200){
         this.classList = clsList.data;
       }
+
     },
     getTab(item){
       this.currentTime = item;
@@ -191,7 +209,7 @@ export default {
         loucengyaoqiu:this.form.loucengyaoqiu,
         teache_id:this.form.teacher.id,
         yupairenshu:this.form.yupairenshu,
-        xiaoxi_id:this.id
+        xiaoxi_id:this.id || "5"
       };
 
       savePk(param).then((res)=>{

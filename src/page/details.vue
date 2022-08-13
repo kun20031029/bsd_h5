@@ -28,7 +28,7 @@
       </div>
 
     </div>
-    <div v-if="data.task_result == '0'" class="bottom-bd">
+    <div v-if="data.task_status == 0" class="bottom-bd">
       <van-button type="primary" block round class="c-btn-blue" @click="goto()">处理</van-button>
     </div>
 
@@ -66,8 +66,34 @@ export default {
         this.data = res.data;
       }
     },
-    goto(item){
+    goto(){
+      let item = this.data;
+      if(item.task_status != 0){
+        return;
+      }
+      let url = "",param = {};
+      switch (item.leixing){
 
+        case "paike_task":  //排课任务
+        case "paike_task_yanjiusheng":
+          url = "/setclass"
+          break;
+        case "benke_xinsheng_daoshi":
+        case "benke_xinsheng_daoshi_to_xuesheng":
+          url = "/guiding"
+          break;
+        default:
+          url = "/surepage"
+          break;
+
+      }
+      url && this.$router.push({
+        path : url,
+        query : {
+          type : this.type,
+          id: this.id
+        }
+      })
     }
   }
 

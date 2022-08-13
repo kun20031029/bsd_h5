@@ -68,7 +68,7 @@
           <div class="item item-empty" v-else>
             <img src="../assets/img/e.png">
           </div>
-          <van-icon class-prefix="my-icon" name="more" />
+          <van-icon class-prefix="my-icon" name="more"   @click="goto(1)"  />
         </div>
       </li>
     </ul>
@@ -105,7 +105,7 @@ export default {
   methods : {
       async getData(){
         let res = await getIndexData(this.type);
-        if(res.code == 200){
+        if(res && res.code == 200){
           this.data = res.data;
           console.log(this.data)
         }

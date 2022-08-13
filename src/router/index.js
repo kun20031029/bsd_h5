@@ -7,6 +7,7 @@ import task from '@/page/task'
 import details from '@/page/details'
 import setClass from '@/page/setclass'
 import guiding from '@/page/guiding'
+import surepage from '@/page/surepage'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/guiding',
       name: 'guiding',
       component: guiding
+    },
+    {
+      path: '/surepage',
+      name: 'surepage',
+      component: surepage
     },
   ]
 })

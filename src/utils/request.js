@@ -21,7 +21,7 @@ service.interceptors.request.use(
     if (token) {
       let tokenKey = sessionStorage.getItem("CURRENTKEY");
       tokenKey = tokenKey=="1" ? "student_token" : "teacher_token";
-      tokenKey = "student_token";
+      // tokenKey = "student_token";
       config.headers[tokenKey] = token;
     }
     // if (config.method === 'post') {

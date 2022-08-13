@@ -2,14 +2,14 @@ import request from '@/utils/request'
 //登录
 export function login(param,type) {
   let url = "/teacher/teacherLogin/loginMobile";
-  if(type) url = "/user/student/loginMobile";
+  if(type) url = "/student/StudentLogin/loginMobile";
   return request.post(url,param)
 }
 //首页
 export function getIndexData(type) {
   let url = "/teacher/teacherTask/shouye";
   if(type) url = "/student/studentTask/shouye"
-  return request.get(url)
+  return request.post(url)
 }
 //任务列表
 export function getTask(param,type){
@@ -48,5 +48,15 @@ export function savePk(param){
 //提交老师接收的学生数量
 export function saveNumStudent(param){
   let url = "/teacher/daoshi/addXueShengNum";
+  return request.post(url,param)
+}
+//通知的通知确认
+export function taskResultSave(param,type){
+  let url = "/teacher/teacherTask/confirm";
+  if(type) url = "/student/studentTask/confirm"
+  return request.post(url,param)
+}
+export function selectTeacher(param){
+  let url = "/student/studentDaoshi/addXuanDaoshi";
   return request.post(url,param)
 }

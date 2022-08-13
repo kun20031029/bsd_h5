@@ -10,17 +10,27 @@
       </div>
     </div>
     <div class="ct-flex-content">
-      <div class="block-w">
-        <div class="s-hd">
+      <div class="pad">
+        <div class="block-w dt-ct">
+          <div class="s-hd">
+            {{ data.biaoti }}
+          </div>
+          <div class="s-ct font15">
+            {{ data.neirong }}
+          </div>
 
         </div>
-
-
       </div>
 
+
     </div>
-    <div v-if="data.task_result == '0'" class="bottom-bd">
-      <van-button type="primary" block round class="c-btn-blue" @click="goto()">处理</van-button>
+    <div  class="bottom-bd"
+          v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result'">
+      <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
+    </div>
+    <div  class="bottom-bd ttCenter bottom-bd-more" v-else>
+      <van-button  type="default" plain round  class="c-btn-gray" @click="save(1)">不参加</van-button>
+      <van-button type="primary"  round class="c-btn-blue" @click="save(2)">确认</van-button>
     </div>
 
   </div>
@@ -28,7 +38,7 @@
 
 <script>
 
-import { getDetail } from '@/api/api'
+import { getDetail,taskResultSave } from '@/api/api'
 import fileBox from '@/components/file'
 
 export default {
@@ -57,8 +67,13 @@ export default {
         this.data = res.data;
       }
     },
-    goto(item){
-
+    save(statu){
+      taskResultSave({"xiaoxi_id":this.id,"zhuangtai":statu},this.type).then((res)=>{
+        if(res.code == 200){
+          this.$toast.success(res.msg);
+          this.$router.go(-1);
+        } else this.$toast.fail(res.msg);
+      })
     }
   }
 
@@ -84,12 +99,36 @@ export default {
   line-height: 25px;
 }
 .ct-flex-content .pad{
-  padding: 20px;
+  padding: 10px 15px;
 }
 .ct-flex-content .block-w{
-  padding: 15px;
+  padding: 0;
   border-radius: 11px;
 }
-
-
+.dt-ct{
+  padding:11px;
+  line-height: 30px;
+}
+.dt-ct .s-hd{
+  background:url(../assets/img/bg2.png) no-repeat center center;
+  background-size: 100%;
+  min-height: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#fff;
+  font-size:21px;
+  padding: 0 20px
+}
+.dt-ct .s-ct{
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bottom-bd-more .van-button{
+  width: 40%;
+  margin:0 4%;
+}
 </style>

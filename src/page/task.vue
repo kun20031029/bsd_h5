@@ -50,7 +50,7 @@ export default {
     async getData(){
       let res = await getTask({
         task_status:this.status
-      });
+      },this.type);
       if(res.code == 200){
         this.list = res.data;
       }

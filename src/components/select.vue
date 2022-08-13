@@ -12,7 +12,7 @@
 
       </div>
       <ul class="selectList" v-if="type != '1'">
-        <li class="block-w" v-for="(item,idx) in list" @click="itemClick(item)">
+        <li class="block-w" v-for="(item,idx) in searchList" @click="itemClick(item)">
           <van-row>
             <van-col span="18" class="font15">{{ item.chinese_name }}</van-col>
             <van-col span="6" class="font12 fc3 ttRight">{{ item.cate }}</van-col>
@@ -20,17 +20,19 @@
           </van-row>
         </li>
       </ul>
-      <ul class="selectList" v-else>
-        <li class="block-w" v-for="(item,idx) in list" @click="itemClick(item)">
+      <ul class="selectList selectList_user" v-else>
+        <li class="block-w" v-for="(item,idx) in searchList" @click="itemClick(item)">
           <div class="card-list">
-            <img src="">
-            <van-row>
+            <img :src="item.icon" class="c-img">
+            <van-row class="v-item-bd">
               <van-col span="21" >
                 <span class="font15">{{ item.name }}</span>
-                <span class="font12 fc3">{{ item.name }}</span>
+                <span class="font12 fc3">{{ item.yanjiufangxiang }}</span>
               </van-col>
-              <van-col span="3" class="font12 fc3 ttRight">{{ item.cate }}</van-col>
-              <van-col span="24" class="font12 fc3 ">{{ item.xuefen }}</van-col>
+              <van-col span="3" class="font16 fc3 ttRight" @click.stop="checkTeacherDetail(item)">
+                <van-icon name="info-o" />
+              </van-col>
+              <van-col span="24" class="font12 fc3 ">{{ item.zaiyanxiangmu }}</van-col>
             </van-row>
           </div>
 
@@ -46,6 +48,9 @@ export default{
   components:{
   },
   props: {
+    searchList:{
+      type: Array
+    },
     show:{
       type: Boolean
     },
@@ -54,21 +59,24 @@ export default{
     },
     type:{
       type: String
+    },
+    param:{
+      type: Object,
+      value:{}
     }
   },
 
 
   methods:{
+    checkTeacherDetail(item){
+      this.$emit("checkTeacherDetail",item)
+    },
     close(){
+      this.key = "";
       this.$emit("closeSelect");
     },
     async getList(){
-      let res = await getCommonList({
-        name: this.key
-      },(this.type == 1 ? true:false));
-      if(res.code == 200){
-        this.list = res.data;
-      }
+      this.$emit("searchListFn",this.key)
     },
     itemClick(item){
       this.$emit("setItem",item);
@@ -88,12 +96,10 @@ export default{
   data(){
     return {
       key:'',
-      list:[]
     }
   },
 
   mounted (){
-    this.getList();
   }
 }
 </script>
@@ -119,16 +125,5 @@ export default{
     background:transparent;
     padding: 3px 16px;
   }
-  .selectList{
-    padding: 0 15px
-  }
-  .selectList li{
-    margin-bottom: 10px;
-    padding: 8px 15px;
-    line-height: 25px;
-    border-radius: 11px;
-  }
-  .card-list{
-    display: flex;
-  }
+
 </style>

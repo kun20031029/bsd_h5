@@ -68,7 +68,7 @@
                        type="text"
                        is-link
                        readonly
-                       @click="selectTeacher('teacher1')"
+                       @click="selectTeacher('teacher2')"
                        label="期望导师" />
             <van-field v-model="form.student.name"
                        input-align="right"
@@ -83,8 +83,11 @@
 
       </div>
     </div>
-    <div  class="bottom-bd">
+    <div  class="bottom-bd" v-if="!type">
       <van-button type="primary" block round class="c-btn-blue" @click="save()">提交</van-button>
+    </div>
+    <div  class="bottom-bd" v-else>
+      <van-button type="primary" block round class="c-btn-blue" @click="saveStu()">提交</van-button>
     </div>
 
     <selectPage v-if="selectShowIf"
@@ -92,7 +95,11 @@
                 :text="searchKey"
                 @closeSelect="popShow=false"
                 @setItem="setClassItem"
+                @searchListFn="searchListFn"
+                :searchList="searchList"
                 :type="type"
+                @checkTeacherDetail="checkTeacherDetail"
+                :param="searchParam"
     ></selectPage>
     <mydialog :showDialog="dialogShow" :btnMore="false" msg="提交成功" @closeSelect="closeDialog"></mydialog>
   </div>
@@ -100,7 +107,7 @@
 
 <script>
 
-import { saveNumStudent } from '@/api/api'
+import { saveNumStudent,getCommonList,selectTeacher } from '@/api/api'
 import selectPage from '@/components/select'
 import mydialog from '@/components/mydialog'
 
@@ -121,8 +128,9 @@ export default {
         teacher1:{},
         teacher2:{}
       },
-
-      dialogShow:false
+      searchList:[],
+      dialogShow:false,
+      searchParam:{}
 
     }
   },
@@ -136,10 +144,28 @@ export default {
     this.form[keyStatu] = JSON.parse(user);
   },
   methods : {
+    checkTeacherDetail(item){
+      console.log(item)
+    },
+    async searchListFn(key){
+      this.searchParam.name=key;
+      let res = await getCommonList(this.searchParam,(this.type == 1 ? true:false));
+      if(res.code == 200){
+        this.searchList = res.data;
+      }
+    },
     selectTeacher(key){
       this.curentKey = key;
       this.popShow = !this.popShow;
       this.selectShowIf = true;
+
+      this.searchParam = {
+        searchQiwangDaoshi:"all"
+      }
+      if(key == "teacher1"){
+        this.searchParam = {}
+      }
+      this.searchListFn();
     },
     setClassItem(item){
       this.form[this.curentKey] = item;
@@ -171,6 +197,21 @@ export default {
         }
       })
 
+    },
+    saveStu(){
+      if( (this.form.teacher1 && this.form.teacher1.id) || (this.form.teacher2 && this.form.teacher2.id)){
+        selectTeacher({
+          xiaoxi_id:this.id,
+          teacher_id:this.form.teacher2.id,
+          beixuan_techer_id:this.form.teacher1.id
+        }).then((res)=>{
+          if(res.code == 200){
+            this.dialogShow = true;
+          }
+        })
+      }else {
+        this.$notify({ type: 'danger', message: "请至少选择一位导师" });
+      }
     },
     closeDialog(type){
       this.dialogShow = false;

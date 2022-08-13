@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       mobile:'13811564500',
-      code:'12345'
+      code:'123456'
     }
   },
 
