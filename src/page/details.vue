@@ -85,6 +85,10 @@ export default {
         case "paike_task_result":
           url = "/classResult"
           break;
+        case "xuesheng_benke_daoshi_jieguo":
+        case "laoshi_benke_daoshi_jieguo":
+          url = "/notice"
+          break;
         default:
           url = "/surepage"
           break;
