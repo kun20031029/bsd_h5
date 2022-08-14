@@ -39,11 +39,12 @@
         </li>
       </ul>
     </div>
+
   </van-popup>
 
 </template>
 <script>
-import { getCommonList } from '@/api/api'
+
 export default{
   components:{
   },

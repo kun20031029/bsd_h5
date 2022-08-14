@@ -6,6 +6,8 @@ import router from './router'
 import Vant from 'vant';
 import 'vant/lib/index.css';
 import filters from './utils/filters'
+
+import '@/permission' // permission control
 Vue.use(Vant);
 // 遍历注册全局过滤器
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))

@@ -8,6 +8,8 @@ import details from '@/page/details'
 import setClass from '@/page/setclass'
 import guiding from '@/page/guiding'
 import surepage from '@/page/surepage'
+import classResult from '@/page/classResult'
+import notice from '@/page/notice'
 
 Vue.use(Router)
 
@@ -15,8 +17,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'index',
+      component: index
     },
     {
       path: '/login',
@@ -52,6 +54,16 @@ export default new Router({
       path: '/surepage',
       name: 'surepage',
       component: surepage
+    },
+    {
+      path: '/classResult',
+      name: 'classResult',
+      component: classResult
+    },
+    {
+      path: '/notice',
+      name: 'notice',
+      component: notice
     },
   ]
 })

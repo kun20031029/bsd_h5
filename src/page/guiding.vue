@@ -102,6 +102,7 @@
                 :param="searchParam"
     ></selectPage>
     <mydialog :showDialog="dialogShow" :btnMore="false" msg="提交成功" @closeSelect="closeDialog"></mydialog>
+    <teacherPage :item="teacherItem" :show="teachShow" @closeComponent="teachShow=false"></teacherPage>
   </div>
 </template>
 
@@ -110,14 +111,18 @@
 import { saveNumStudent,getCommonList,selectTeacher } from '@/api/api'
 import selectPage from '@/components/select'
 import mydialog from '@/components/mydialog'
+import teacherPage from '@/components/teacherDetail'
 
 export default {
   components: {
     selectPage,
-    mydialog
+    mydialog,
+    teacherPage
   },
   data() {
     return {
+      teacherItem:{},
+      teachShow:false,
       selectShowIf:false,
       popShow:false,
       searchKey:'请输入要搜索的导师',
@@ -139,13 +144,14 @@ export default {
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
     //获取当前老师
-    let user = sessionStorage.getItem("USER");
+    let user = localStorage.getItem("USER");
     let keyStatu = this.type ? "student" : "teacher";
     this.form[keyStatu] = JSON.parse(user);
   },
   methods : {
     checkTeacherDetail(item){
-      console.log(item)
+      this.teacherItem = item;
+      this.teachShow = true;
     },
     async searchListFn(key){
       this.searchParam.name=key;

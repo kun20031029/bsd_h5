@@ -19,7 +19,7 @@ service.interceptors.request.use(
   config => {
     const token = getToken()
     if (token) {
-      let tokenKey = sessionStorage.getItem("CURRENTKEY");
+      let tokenKey = localStorage.getItem("CURRENTKEY");
       tokenKey = tokenKey=="1" ? "student_token" : "teacher_token";
       // tokenKey = "student_token";
       config.headers[tokenKey] = token;

@@ -82,6 +82,9 @@ export default {
         case "benke_xinsheng_daoshi_to_xuesheng":
           url = "/guiding"
           break;
+        case "paike_task_result":
+          url = "/classResult"
+          break;
         default:
           url = "/surepage"
           break;

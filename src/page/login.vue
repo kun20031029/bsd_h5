@@ -65,7 +65,7 @@ export default {
   methods : {
       async login(){
         let type = this.$route.query.type;
-        sessionStorage.clear();
+        localStorage.clear();
         let res = await login({
           mobile : this.mobile,
           code : this.code
@@ -75,8 +75,8 @@ export default {
           let data = res.data;
           let key = data.student || data.teacher;
 
-          sessionStorage.setItem("USER",JSON.stringify(key));
-          sessionStorage.setItem("CURRENTKEY",type);
+          localStorage.setItem("USER",JSON.stringify(key));
+          localStorage.setItem("CURRENTKEY",type);
           setToken(data.token);
           this.$router.push({
             path: '/index',

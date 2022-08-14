@@ -139,7 +139,7 @@ export default {
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
     //获取当前老师
-    let user = sessionStorage.getItem("USER");
+    let user = localStorage.getItem("USER");
     this.form.teacher = JSON.parse(user);
     this.getData();
   },
@@ -150,7 +150,7 @@ export default {
         name:key
       },(this.type == 1 ? true:false));
       if(kcList.code == 200){
-        this.searchList = kcList;
+        this.searchList = kcList.data;
       }
     },
     setClassItem(item){

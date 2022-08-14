@@ -60,3 +60,14 @@ export function selectTeacher(param){
   let url = "/student/studentDaoshi/addXuanDaoshi";
   return request.post(url,param)
 }
+//排课结果 对象：老师
+export function getPaikeResult(param){
+  let url = "/teacher/paike/myCourseResult";
+  return request.post(url,param)
+}
+//老师指导的学生列表   学生的老师列表
+export function getNoticeObj (type){
+  let url = "/teacher/daoshi/xinshengList";
+  if(type) url = '/student/studentDaoshi/myDaoshi'
+  return request.post(url)
+}

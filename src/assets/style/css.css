@@ -240,14 +240,24 @@ div:focus {
   overflow:hidden;
 }
 .card-list .v-item-bd .van-col{
-  height: 25px;
-  overflow:hidden;
+  height: 2em;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 2em;
 }
 .card-list .c-img{
   width: 52px;
   height: 52px;
   border-radius: 8px;
   margin-right:10px
+}
+.top-head-box{
+  line-height: 50px;
+  padding: 0 20px;
+}
+.top-head-box .a-left-bd{
+  width: 50px;
+  line-height: 50px;
+
 }
