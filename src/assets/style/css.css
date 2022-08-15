@@ -96,9 +96,12 @@ div:focus {
 .fc4{
   color:#eee;
 }
-.c-btn-blue{
+.van-button.c-btn-blue{
   background:#2E6CFF;
   border: 1px solid #2E6CFF;
+}
+.van-button.c-btn-qblue{
+
 }
 .my-icon{
   display: inline-block;

@@ -5,6 +5,11 @@ export function login(param,type) {
   if(type) url = "/student/StudentLogin/loginMobile";
   return request.post(url,param)
 }
+//发送验证码
+export function getCode(param) {
+  let url = "/common/gongju/vocode";
+  return request.post(url,param)
+}
 //首页
 export function getIndexData(type) {
   let url = "/teacher/teacherTask/shouye";

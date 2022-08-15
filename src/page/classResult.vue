@@ -66,7 +66,7 @@
                 readonly
               />
             </van-cell>
-            <van-cell title="排课人数" :value="currentItem.c_kechengleibie" />
+            <van-cell title="排课人数" :value="currentItem.c_paikerenshu" />
 
 
           </van-cell-group>

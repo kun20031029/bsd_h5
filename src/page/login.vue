@@ -32,12 +32,13 @@
           </van-field>
         </van-col>
         <van-col span="8">
-          <van-button  type="primary" round class="c-btn-blue" style="float:right">获取验证码</van-button>
+          <van-button  type="primary" round :disabled="disabled" class="c-btn-blue" style="float:right;min-width: 100px" @click="getCode">
+            {{ text }}</van-button>
         </van-col>
 
       </van-row>
       <div class="ttCenter">
-        <van-button type="primary" block round class="c-btn-blue" @click="login">登录</van-button>
+        <van-button type="primary" block round  :disabled="disabledLogin"  class="c-btn-blue" @click="login">登录</van-button>
       </div>
     </div>
 
@@ -46,7 +47,7 @@
 
 <script>
 
-import { login } from '@/api/api'
+import { login,getCode } from '@/api/api'
 import { setToken } from '@/utils/auth'
 export default {
   components: {
@@ -54,8 +55,11 @@ export default {
   },
   data() {
     return {
-      mobile:'13811564500',
-      code:'123456'
+      mobile:'',
+      code:'',
+      disabled:false,
+      disabledLogin:false,
+      text:'获取验证码'
     }
   },
 
@@ -63,13 +67,45 @@ export default {
 
   },
   methods : {
+      async getCode(){
+        if(!this.mobile){
+          this.$notify({ type: 'danger', message: "请先填写手机号" })
+          return;
+        }
+        this.disabled = true;
+        this.text = 59;
+        let timer = setInterval(()=>{
+          if(this.text <= 0){
+            clearInterval(timer);
+            this.disabled = false;
+          }
+          this.text --;
+        },1000)
+        let res = await getCode({
+          mobile: this.mobile
+        });
+        if(res.code == 200){
+          this.$toast.success(res.msg);
+        }
+      },
       async login(){
+        let error ;
+        error || this.mobile || (error = "请填写手机号");
+        error || this.code || ( error = "请填写验证码");
+        if(error){
+          this.$notify({ type: 'danger', message: error })
+          return;
+        }
+
+        this.disabledLogin = true;
+
         let type = this.$route.query.type;
         localStorage.clear();
         let res = await login({
           mobile : this.mobile,
           code : this.code
         },type);
+        this.disabledLogin = false;
 
         if(res.code == 200){
           let data = res.data;
