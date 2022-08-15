@@ -2,9 +2,9 @@
   <div class="home-container">
     <div class="pad block-w mb20">
       <div class="home-tit">您好，{{ data[typeKey] ? data[typeKey].name : '--' }}</div>
-      <div class="showTab">
+      <div class="showTab " :class="{'studentShowTab': typeKey == 'student' }">
         <van-row>
-          <van-col span="12">
+          <van-col span="12" v-if="typeKey != 'student'">
             <div class="t-flex">
               <div class="tt">
                 目标学时
@@ -15,7 +15,7 @@
               </div>
             </div>
           </van-col>
-          <van-col span="12">
+          <van-col span="12" v-if="typeKey != 'student'">
             <div class="t-flex">
               <div class="tt">
                 已完成
@@ -176,6 +176,9 @@ export default {
   background:url(../assets/img/bg.png) no-repeat;
   background-size:100% 100%;
   height:140px;
+}
+.studentShowTab .van-row{
+  background-image: url(../assets/img/bg3.png);
 }
 .t-flex .tt-desc{
   font-size:25px;
