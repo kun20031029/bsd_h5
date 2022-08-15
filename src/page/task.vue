@@ -14,7 +14,7 @@
         <van-row>
           <van-col span="18" class="font15">{{ item.biaoti }}</van-col>
           <van-col span="6" class="font12 fc3 ttRight">{{ item.shijian | DATEFORMATE("mm月dd日") }}</van-col>
-          <van-col span="24" class="font12 fc3 ">{{ item.neirong }}</van-col>
+          <van-col span="24" class="font12 fc3 overCell ">{{ item.neirong }}</van-col>
         </van-row>
       </li>
     </ul>

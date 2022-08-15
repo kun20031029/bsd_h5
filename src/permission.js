@@ -17,6 +17,7 @@ router.beforeEach(async(to, from, next) => {
   // console.log(hasToken)
   if (hasToken) {
     if (to.path === '/login') {
+      localStorage.clear();
       // if is logged in, redirect to the home page
       // next({ path: '/' })
       next()

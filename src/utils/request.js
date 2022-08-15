@@ -49,7 +49,11 @@ service.interceptors.response.use(
       // if(response.data.message == "SUCCESS"){
       if(response.data.code == 200){
         return response.data
-      }else{
+      }else if(response.data.code == 600){
+        Toast.fail(response.data.msg);
+        let query = router.history.current.query;
+        router.push({path:'/login',query:query});
+      }{
         Toast.fail(response.data.msg);
       }
 

@@ -264,3 +264,9 @@ div:focus {
   line-height: 50px;
 
 }
+.overCell{
+  overflow:hidden;
+  height: 25px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
