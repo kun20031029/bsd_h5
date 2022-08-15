@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-          target: 'http://bsd.fckvip.cn/',//目标接口域名
+          target: 'http://bsd.fckvip.cn:8080/',//目标接口域名
           changeOrigin: true,  //是否跨域
           pathRewrite: {
             '^/api': ''   //重写接口
