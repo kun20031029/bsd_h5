@@ -61,7 +61,7 @@
             <van-row>
               <van-col span="18" class="font15">{{ item.biaoti }}</van-col>
               <van-col span="6" class="font12 fc3 ttRight">{{ item.shijian | DATEFORMATE("mm月dd日") }}</van-col>
-              <van-col span="24" class="font12 fc3 ">{{ item.neirong }}</van-col>
+              <van-col span="24" class="font12 fc3 overCell  ">{{ item.neirong }}</van-col>
             </van-row>
             <van-icon  name="arrow" />
           </div>
@@ -79,8 +79,7 @@
 
 <script>
 
-import { getIndexData } from '@/api/api'
-
+import { getIndexData,getApi } from '@/api/api'
 export default {
   components: {
 
@@ -109,6 +108,7 @@ export default {
           this.data = res.data;
           console.log(this.data)
         }
+
       },
     clickItem(item){
       this.$router.push({

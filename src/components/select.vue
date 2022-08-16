@@ -23,7 +23,7 @@
       <ul class="selectList selectList_user" v-else>
         <li class="block-w" v-for="(item,idx) in searchList" @click="itemClick(item)">
           <div class="card-list">
-            <img :src="item.icon" class="c-img">
+            <img :src="host + item.icon" class="c-img">
             <van-row class="v-item-bd">
               <van-col span="21" >
                 <span class="font15">{{ item.name }}</span>
@@ -97,11 +97,16 @@ export default{
   data(){
     return {
       key:'',
+      host:''
     }
   },
-
-  mounted (){
-  }
+  async created(){
+    this.host = await this.$getApi();
+  },
+  // async mounte (){
+  //   console.log("===")
+  //
+  // }
 }
 </script>
 <style >

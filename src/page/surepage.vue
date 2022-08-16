@@ -126,6 +126,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  word-break: break-all;
+  padding: 0 20px 20px 20px;
 }
 .bottom-bd-more .van-button{
   width: 40%;

@@ -17,7 +17,7 @@
           </div>
           <div class="s-ct">
             <div class="card-list" v-for='(item,index) in data'>
-              <div class="cd-icon">{{ type ? "恭喜了！" : index+1 }}</div>
+              <div class="cd-icon">{{ type ? "导" : index+1 }}</div>
               <van-row class="v-item-bd">
                 <van-col span="18" >
                   <span class="font15">{{ item.name }}</span>

@@ -193,7 +193,7 @@ export default {
 
       let str = "";
       for(let key in this.selectTime){
-        str = str ? str + "," + key : key;
+        if(this.selectTime[key]) str = str ? str + "," + key : key;
       }
       let error ;
       error || this.form.class.id || (error = "请选择课程");
@@ -204,8 +204,6 @@ export default {
         this.$notify({ type: 'danger', message: error });
         return;
       }
-
-
       let param = {
         course_id:this.form.class.id,
         expect_date:str,

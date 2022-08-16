@@ -36,7 +36,8 @@ service.interceptors.request.use(
 )
 
 service.interceptors.response.use(
-  response => {
+  response=> {
+
     if (
       response &&
       response.data.code === "701"
@@ -49,10 +50,17 @@ service.interceptors.response.use(
       // if(response.data.message == "SUCCESS"){
       if(response.data.code == 200){
         return response.data
-      }else if(response.data.code == 600){
+      }else if(response.data.code === 600){
+        let CURRENTKEY = localStorage.getItem("CURRENTKEY");
+
+        alert("如果出来这个窗口，请截图下来，谢谢  ===请求路径："+ response.request.responseURL +" ===请求参数：" + response.config.data + " ==== 页面地址：" + window.location.href);
         Toast.fail(response.data.msg);
+
         let query = router.history.current.query;
-        router.push({path:'/login',query:query});
+        if(query.type != CURRENTKEY){
+          router.push({path:'/login',query:query});
+        }
+
       }{
         Toast.fail(response.data.msg);
       }

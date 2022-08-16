@@ -9,7 +9,7 @@
     </div>
     <div class="block-w info-head mb10">
       <div class="card-list">
-        <img :src="item.icon" class="c-img">
+        <img :src="host + item.icon" class="c-img">
         <van-row class="v-item-bd">
           <van-col span="24" >
             <span style="font-size: 26px">{{ item.name }}</span>
@@ -34,9 +34,7 @@
       <div class="i-tt">
         指导计划：
       </div>
-      <div class="i-txt">
-        {{ item.zaiyanxiangmu }}
-      </div>
+
     </div>
 
   </div>
@@ -74,18 +72,16 @@ export default {
     return {
       type:'',
       id : '',
+      host:''
     }
   },
 
-  created(){
+  async created(){
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
-    this.getData();
+    this.host = await this.$getApi();
   },
   methods : {
-    async getData(){
-
-    },
 
   }
 
@@ -122,5 +118,6 @@ export default {
 }
 .info-ct .i-txt{
   font-size:12px;
+  word-break: break-all;
 }
 </style>

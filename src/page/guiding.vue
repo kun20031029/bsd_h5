@@ -213,7 +213,7 @@ export default {
 
     },
     saveStu(){
-      if( (this.form.teacher1 && this.form.teacher1.id) || (this.form.teacher2 && this.form.teacher2.id)){
+      if( (this.form.teacher1 && this.form.teacher1.id)){
         selectTeacher({
           xiaoxi_id:this.id,
           teacher_id:this.form.teacher2.id,
@@ -224,7 +224,7 @@ export default {
           }
         })
       }else {
-        this.$notify({ type: 'danger', message: "请至少选择一位导师" });
+        this.$notify({ type: 'danger', message: "请选择一位可选导师" });
       }
     },
     closeDialog(type){

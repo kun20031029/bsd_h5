@@ -40,12 +40,6 @@ export default{
       document.body.appendChild(el);
       el.click();
       document.body.removeChild(el);
-    },
-    async getData(){
-      let res = await getApi();
-      if(res.code == 200){
-        this.host = res.data[0].paramvalue;
-      }
     }
 
   },
@@ -58,7 +52,7 @@ export default{
   },
 
   async mounted (){
-    await this.getData();
+    this.host = await this.$getApi();
     let arr = this.file ? this.file.split(",") : [];
     for(let i = 0; i < arr.length; i ++){
       let item = arr[i];

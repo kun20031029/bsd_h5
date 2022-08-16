@@ -1,7 +1,18 @@
 
 import Vue from 'vue'
+import { getApi } from '@/api/api'
 
-
+Vue.prototype.$getApi = async function (){
+  let host = localStorage.getItem("host");
+  if(!host){
+    let apiRes = await getApi();
+    if(apiRes.code == 200){
+      host = apiRes.data[0].paramvalue;
+      localStorage.setItem("host",host);
+    }
+  }
+  return host;
+}
 Vue.prototype.$importFile = function(res,fileType,fileName){
 
   var blob = new Blob([res], { type: fileType || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' });
