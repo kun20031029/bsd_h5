@@ -55,8 +55,8 @@ export default {
   },
   data() {
     return {
-      mobile:'',
-      code:'',
+      mobile:'13811564500',
+      code:'123456',
       disabled:false,
       disabledLogin:false,
       text:'获取验证码'

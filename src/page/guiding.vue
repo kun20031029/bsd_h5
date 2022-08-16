@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container ct-flex-box">
+  <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">本科新生导师</div>
@@ -83,17 +83,17 @@
 
       </div>
     </div>
-    <div  class="bottom-bd" v-if="!type">
+    <div  class="bottom-bd bottom-box-fixed" v-if="!type">
       <van-button type="primary" block round class="c-btn-blue" @click="save()">提交</van-button>
     </div>
-    <div  class="bottom-bd" v-else>
+    <div  class="bottom-bd bottom-box-fixed" v-else>
       <van-button type="primary" block round class="c-btn-blue" @click="saveStu()">提交</van-button>
     </div>
 
     <selectPage v-if="selectShowIf"
                 :show="popShow"
                 :text="searchKey"
-                @closeSelect="popShow=false"
+                @closeSelect="closeSelectPageFn"
                 @setItem="setClassItem"
                 @searchListFn="searchListFn"
                 :searchList="searchList"
@@ -130,6 +130,7 @@ export default {
       id : '',
       curentKey:'',
       form:{
+        teacher:{},
         teacher1:{},
         teacher2:{}
       },
@@ -145,10 +146,17 @@ export default {
     this.id = this.$route.query.id;
     //获取当前老师
     let user = localStorage.getItem("USER");
+
+
     let keyStatu = this.type ? "student" : "teacher";
-    this.form[keyStatu] = JSON.parse(user);
+
+    this.form[keyStatu] = JSON.parse(user) || {};
   },
   methods : {
+    closeSelectPageFn(){
+      this.popShow=false;
+      this.searchListFn();
+    },
     checkTeacherDetail(item){
       this.teacherItem = item;
       this.teachShow = true;

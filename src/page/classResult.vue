@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container ct-flex-box">
+  <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">北师大心理学部</div>
@@ -16,7 +16,7 @@
             <li v-for="(item,index) in data" :class="{'on': index == currentIndex }" @click="clickItem(item,index)">{{ item.c_kechengming }}</li>
           </ul>
         </div>
-        <div class="block-w r-cont">
+        <div class="block-w r-cont mb10">
           <div class="pk-title">课程信息</div>
           <van-cell-group>
             <van-cell title="课程类别" :value="currentItem.c_kechengleibie" />
@@ -30,7 +30,7 @@
             <van-cell title="成绩构成" :value="currentItem.c_chengjigoucheng" />
           </van-cell-group>
         </div>
-        <div class="block-w r-cont">
+        <div class="block-w r-cont mb10">
           <div class="pk-title">上课班级信息</div>
           <van-cell-group>
             <van-cell title="周次" :value="currentItem.c_zhouci"/>
@@ -40,7 +40,7 @@
 
           </van-cell-group>
         </div>
-        <div class="block-w r-cont">
+        <div class="block-w r-cont mb10">
           <div class="pk-title">教师信息</div>
           <van-cell-group>
             <van-cell title="上课班号" :value="currentItem.c_shangkebanhao" />
@@ -75,7 +75,7 @@
 
 
     </div>
-    <div class="bottom-bd">
+    <div class="bottom-bd bottom-box-fixed">
       <van-button type="primary" block round class="c-btn-blue" @click="save()">确认</van-button>
     </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container ct-flex-box">
+  <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">本科新生导师</div>
@@ -36,7 +36,7 @@
 
 
     </div>
-    <div  class="bottom-bd">
+    <div  class="bottom-bd bottom-box-fixed">
       <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
     </div>
 

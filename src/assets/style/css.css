@@ -206,13 +206,25 @@ div:focus {
   display: flex;
   flex-direction: column;
   height:100vh;
+  overflow: hidden;
 }
 .ct-flex-content{
   flex:1;
-  overflow-x:hidden;
+  overflow: hidden;
+  overflow-y: auto;
 }
 .bottom-bd{
   padding:20px;
+}
+.bottom-box-fixed{
+  position:fixed;
+  left: 0;
+  bottom: 0;
+  width:100%;
+
+}
+.bottom-padding-fixed{
+  padding-bottom: 84px;
 }
 .form-tit{
   font-size:17px;

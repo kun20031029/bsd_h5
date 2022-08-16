@@ -76,3 +76,8 @@ export function getNoticeObj (type){
   if(type) url = '/student/studentDaoshi/myDaoshi'
   return request.post(url)
 }
+//api接口域名地址
+export function getApi(){
+  let url = "/common/gongju/appParams";
+  return request.get(url)
+}

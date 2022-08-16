@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container ct-flex-box">
+  <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">学术硕士招生</div>
@@ -24,13 +24,13 @@
 
 
     </div>
-    <div  class="bottom-bd"
+    <div  class="bottom-bd bottom-box-fixed"
           v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result'">
       <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
     </div>
-    <div  class="bottom-bd ttCenter bottom-bd-more" v-else>
+    <div  class="bottom-bd ttCenter bottom-bd-more bottom-box-fixed" v-else>
       <van-button  type="default" plain round  class="c-btn-gray" @click="save(1)">不参加</van-button>
-      <van-button type="primary"  round class="c-btn-blue" @click="save(2)">确认</van-button>
+      <van-button type="primary"  round class="c-btn-blue" @click="save(2)">参加</van-button>
     </div>
 
   </div>

@@ -1,8 +1,8 @@
 <template>
-  <div class="home-container ct-flex-box">
+  <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
-        <div class="title">北师大心理学部</div>
+        <div class="title">任务名称</div>
         <div class="tit-desc">通知详情</div>
       </div>
       <div class="pic">
@@ -28,7 +28,7 @@
       </div>
 
     </div>
-    <div v-if="data.task_status == 0" class="bottom-bd">
+    <div v-if="data.task_status == 0" class="bottom-bd bottom-box-fixed">
       <van-button type="primary" block round class="c-btn-blue" @click="goto()">处理</van-button>
     </div>
 

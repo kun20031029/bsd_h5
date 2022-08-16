@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container ct-flex-box">
+  <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">排课意向</div>
@@ -86,7 +86,7 @@
 
       </div>
     </div>
-    <div  class="bottom-bd">
+    <div  class="bottom-bd bottom-box-fixed">
       <van-button type="primary" block round class="c-btn-blue" @click="save()">提交</van-button>
     </div>
 
@@ -94,7 +94,7 @@
     <selectPage v-if="selectShowIf"
                 :show="popShow"
                 :text="searchKey"
-                @closeSelect="popShow=false"
+                @closeSelect="closeSelectFn"
                 :searchList="searchList"
                 @searchListFn="searchListFn"
                 @setItem="setClassItem"></selectPage>
@@ -140,10 +140,14 @@ export default {
     this.id = this.$route.query.id;
     //获取当前老师
     let user = localStorage.getItem("USER");
-    this.form.teacher = JSON.parse(user);
+    this.form.teacher = JSON.parse(user) || {};
     this.getData();
   },
   methods : {
+    closeSelectFn(){
+      this.popShow = false;
+      this.searchListFn();
+    },
     async searchListFn(key){
       //选课
       let kcList = await getCommonList({
