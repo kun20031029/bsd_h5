@@ -46,8 +46,10 @@ router.beforeEach(async(to, from, next) => {
       // in the free login whitelist, go directly
       next()
     } else {
+      alert("是在这里吗？？？？？？？")
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`)
+      next()
+      // next(`/login?redirect=${to.path}`)
     }
   }
 })

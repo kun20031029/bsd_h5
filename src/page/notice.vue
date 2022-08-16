@@ -20,13 +20,13 @@
               <div class="cd-icon">{{ type ? "导" : index+1 }}</div>
               <van-row class="v-item-bd">
                 <van-col span="18" >
-                  <span class="font15">{{ item.name }}</span>
-                  <span class="font12 fc3"> {{item.tags || item.grade}}</span>
+                  <span class="font15">{{ item.name || item.techer_name }}</span>
+                  <span class="font12 fc3"> {{item.tags || item.yanjiufangxiang}}</span>
                 </van-col>
                 <van-col span="6" class="ttRight">
-                  <span class="font15" style="color:#2E6CFF">{{ item.xuehao }}</span>
+                  <span class="font15" style="color:#2E6CFF">{{ item.xuehao || item.code }}</span>
                 </van-col>
-                <van-col span="24" class="font12" v-if="item.email">{{ item.email}}</van-col>
+                <van-col span="24" class="font12">{{ item.email ? item.email : (item.teacher ? item.teacher.email : "--") }}</van-col>
               </van-row>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default {
     async getData(){
       let res = await getNoticeObj(this.type);
       if(res.code == 200){
-        if(this.type) this.data = res.data ? [res.data.teacher] : [];
+        if(this.type) this.data = res.data ? [res.data] : [];
         else this.data = res.data || [];
       }
     },
