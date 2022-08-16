@@ -2,7 +2,7 @@
 <template>
   <div class="file-box" v-if="list.length">
     <ul>
-      <li v-for="(item,index) in list" v-if="item" @click="downloadEvt(item.url,item.name)" >
+      <li v-for="(item,index) in list" v-if="item" @click="downloadEvt(item.url,item.name)" :data-url="host+item.url" >
         <van-icon name="file" class-prefix="my-icon"></van-icon>
         <span class="tit">{{item.name}}</span>
       </li>
