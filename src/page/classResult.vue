@@ -75,7 +75,7 @@
 
 
     </div>
-    <div class="bottom-bd bottom-box-fixed">
+    <div class="bottom-bd bottom-box-fixed" v-if="!disabled">
       <van-button type="primary" block round class="c-btn-blue" @click="save()">确认</van-button>
     </div>
 
@@ -97,13 +97,15 @@ export default {
       id : '',
       data:[],
       currentItem:{},
-      currentIndex:0
+      currentIndex:0,
+      disabled:false
     }
   },
 
   created(){
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
+    this.disabled = this.$route.query.statu ? true:false;
     this.getData();
   },
   methods : {
@@ -171,23 +173,7 @@ export default {
 .r-cont .van-hairline-unset--top-bottom::after{
   border-width: 0 ;
 }
-.list-reslt ul{
-  display: flex;
-  overflow-y: hidden;
-  -ms-flex-wrap: wrap;
-}
-.list-reslt li{
-  padding:0 5px;
-  line-height: 3em;
-  margin-right: 15px;
-  white-space: nowrap;
-}
-.list-reslt li.on:after{
-  content:"";
-  background:#2E6CFF;
-  height: 3px;
-  display: block;
-}
+
 .r-cont .pk-title{
   line-height: 2em;
 }

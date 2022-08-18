@@ -2,7 +2,7 @@
   <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
-        <div class="title">任务名称</div>
+        <div class="title">{{ title || '--' }}</div>
         <div class="tit-desc">通知详情</div>
       </div>
       <div class="pic">
@@ -28,8 +28,11 @@
       </div>
 
     </div>
-    <div v-if="data.task_status == 0" class="bottom-bd bottom-box-fixed">
-      <van-button type="primary" block round class="c-btn-blue" @click="goto()">处理</van-button>
+    <div class="bottom-bd bottom-box-fixed">
+      <van-button type="primary" block round class="c-btn-blue" v-if="data.task_status == 0"  @click="goto()">处理</van-button>
+      <van-button type="primary" block round class="c-btn-blue"
+                  v-if="data.task_status == 1 && (data.leixing == 'benke_xinsheng_daoshi' || data.leixing == 'benke_xinsheng_daoshi_to_xuesheng' || data.leixing=='paike_task_result')"
+                  @click="goto(1)">查看</van-button>
     </div>
 
   </div>
@@ -37,7 +40,7 @@
 
 <script>
 
-import { getDetail } from '@/api/api'
+import { getDetail,getLeiXingList } from '@/api/api'
 import fileBox from '@/components/file'
 
 export default {
@@ -49,6 +52,7 @@ export default {
       type:'',
       id : '',
       data:{},
+      title : ''
     }
   },
 
@@ -63,11 +67,39 @@ export default {
         xiaoxiId : this.id
       },this.type);
       if(res.code == 200){
-        this.data = res.data;
+        this.data = res.data || {};
       }
+      let listRes = await this.$getCommonType({
+        mubiao:this.type ? "2" : "1"
+      },this.data.leixing);
+      this.title = listRes.mingcheng;
     },
-    goto(){
+    goto(sign){
       let item = this.data;
+
+      if(sign){
+        if(item.leixing == "benke_xinsheng_daoshi" || item.leixing == "benke_xinsheng_daoshi_to_xuesheng"){
+          this.$router.push({
+            path : "/guiding",
+            query : {
+              type : this.type,
+              id: this.id,
+              statu:1
+            }
+          })
+        }else if(item.leixing == "paike_task_result"){
+          this.$router.push({
+            path : "/classResult",
+            query : {
+              type : this.type,
+              id: this.id,
+              statu:1
+            }
+          })
+        }
+
+        return;
+      }
       if(item.task_status != 0){
         return;
       }

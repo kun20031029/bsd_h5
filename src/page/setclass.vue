@@ -9,6 +9,18 @@
         <img src="../assets/img/i5.png">
       </div>
     </div>
+    <div class="list-reslt mb10" style="padding:0 20px">
+      <ul>
+        <li v-for="(item,index) in formArr" :class="{'on': index == currentIndex }" @click="clickItem(item,index)">
+          排课{{ index+1 }}
+          <van-icon name="close" v-if="formArr.length!=1" @click.stop="clear(item,index)"></van-icon>
+        </li>
+        <li>
+          <van-button icon="plus" type="primary" small class="c-btn-blue" style="height:30px" @click="addFromFn()" >
+          </van-button>
+        </li>
+      </ul>
+    </div>
     <div class="ct-flex-content">
       <div class="pad-class">
         <div class="block-w mb10">
@@ -18,13 +30,13 @@
 
           <van-cell-group inset>
             <van-field type="text" readonly
-                       v-model="form.class.chinese_name"
+                       v-model="formArr[currentIndex].class.chinese_name"
                        label="课程名称" >
               <template #button>
                 <van-button size="small"  type="default" plain class="s-btn" @click="selectClassFn()" >课程选择</van-button>
               </template>
             </van-field>
-            <van-field v-model="form.class.xuefen" input-align="right" readonly placeholder="课程学分" type="number" label="课程学分" />
+            <van-field v-model="formArr[currentIndex].class.xuefen" input-align="right" readonly placeholder="课程学分" type="number" label="课程学分" />
           </van-cell-group>
         </div>
         <div class="block-w mb10" style="padding-bottom:10px">
@@ -32,10 +44,13 @@
             期望授课时间
           </div>
           <ul class="weeb-bd mb10">
-            <li v-for="(item,index) in timeList" :class="{'on':item.fenlei.fenlei == currentTime.fenlei.fenlei }" @click="getTab(item)">{{item.fenlei.fenlei}}</li>
+            <li v-for="(item,index) in timeList" :class="{'on':index == formArr[currentIndex].currentTime.index }" @click="getTab(item,index)">
+
+              {{item.fenlei.fenlei}}
+            </li>
           </ul>
           <div class="wek-btn-bd">
-            <van-button size="small"   v-for="(item,index) in currentTime.dataList" :class="{'on': selectTime[item.id] == item.id }" type="default" plain  @click="getSelectTime(item)">
+            <van-button size="small"   v-for="(item,index) in formArr[currentIndex].currentTime.dataList" :class="{'on': formArr[currentIndex].selectTime[item.id] == item.id }" type="default" plain  @click="getSelectTime(item)">
               {{ item.shijian }}
               <van-icon slot="icon" name="time"></van-icon>
             </van-button>
@@ -45,9 +60,9 @@
           <div class="form-tit require">
             教室类型
           </div>
-          <van-radio-group v-model="form.jiaoshi_type">
+          <van-radio-group v-model="formArr[currentIndex].jiaoshi_type">
             <van-cell-group inset>
-              <van-cell :title="item.mingzi" v-for="(item, index) in classList" clickable @click="form.jiaoshi_type = item.id ">
+              <van-cell :title="item.mingzi" v-for="(item, index) in classList" clickable @click="formArr[currentIndex].jiaoshi_type = item.id ">
                 <template #right-icon>
                   <van-radio :name="item.id" />
                 </template>
@@ -62,7 +77,7 @@
           </div>
           <van-cell-group inset>
 
-            <van-field v-model="form.yupairenshu" input-align="right" placeholder="预排人数" type="number" label="预排人数" />
+            <van-field v-model="formArr[currentIndex].yupairenshu" input-align="right" placeholder="预排人数" type="number" label="预排人数" />
           </van-cell-group>
         </div>
         <div class="block-w mb10">
@@ -71,7 +86,7 @@
           </div>
           <van-cell-group inset>
 
-            <van-field v-model="form.loucengyaoqiu" input-align="right" placeholder="楼层要求" type="text" label="楼层要求" />
+            <van-field v-model="formArr[currentIndex].loucengyaoqiu" input-align="right" placeholder="楼层要求" type="text" label="楼层要求" />
           </van-cell-group>
         </div>
         <div class="block-w mb10">
@@ -80,7 +95,7 @@
           </div>
           <van-cell-group inset>
 
-            <van-field v-model="form.teacher.name" input-align="right" placeholder="老师" type="text" readonly  disabled label="老师" />
+            <van-field v-model="teacher.name" input-align="right" placeholder="老师" type="text" readonly  disabled label="老师" />
           </van-cell-group>
         </div>
 
@@ -104,7 +119,7 @@
 
 <script>
 
-import { getwekDayClass,getclasstype,savePk,getCommonList } from '@/api/api'
+import { getwekDayClass,getclasstype,savePk,getCommonList ,saveListPk} from '@/api/api'
 import selectPage from '@/components/select'
 import mydialog from '@/components/mydialog'
 
@@ -120,17 +135,19 @@ export default {
       popShow:false,
       type:'',
       id : '',
-      form:{
-        jiaoshi_type:'',
-        class:{},
-        teacher:{},
-      },
-      currentTime:{ },
-      selectTime:{},
+      formArr:[{
+          class:{},
+
+          currentTime:{ },
+          selectTime:{},
+      }],
+      currentIndex:0,
+      teacher:{},
+
       timeList : [],
       classList : [],
       dialogShow:false,
-      searchList:[]
+      searchList:[],
 
     }
   },
@@ -140,10 +157,62 @@ export default {
     this.id = this.$route.query.id;
     //获取当前老师
     let user = localStorage.getItem("USER");
-    this.form.teacher = JSON.parse(user) || {};
+    this.teacher = JSON.parse(user) || {};
+
+
     this.getData();
   },
   methods : {
+    clear(item,index){
+      if(index < this.currentIndex){
+        this.currentIndex --;
+      }
+
+      this.$delete(this.formArr,index) ;
+    },
+    error(curtent,idx){
+      let error ;
+      let str = "";
+      for(let key in curtent.selectTime){
+        if(curtent.selectTime[key]) str = str ? str + "," + key : key;
+      }
+      error || curtent.class.id || (error = "请选择课程");
+      error || str || (error = "请选择授课时间");
+      error || curtent.jiaoshi_type || (error = "请选择教室类型");
+      error || curtent.yupairenshu || (error = "请填写预排人数");
+      if(error){
+        let msg = "当前排课还未填写完整:"
+        if(idx){
+          idx = idx +1;
+          msg = "第" + idx + "页还未填写完整:"
+        }
+        this.$notify({ type: 'danger', message: msg + error });
+        return;
+      }
+      return true;
+    },
+    clickItem(item,index){
+      // if(!this.error()){
+      //   return;
+      // }
+      this.currentIndex = index;
+
+    },
+    addFromFn(){
+      if(!this.error(this.formArr[this.currentIndex])){
+        return;
+      }
+      let currentTime = this.timeList[0];
+      currentTime.index = 0;
+      let len = this.formArr.length;
+      this.currentIndex = len;
+      this.$set(this.formArr,len,{
+        class: {},
+        currentTime:currentTime,
+        selectTime:{},
+      })
+      this.$set(this.formArr[len],'jiaoshi_type','')
+    },
     closeSelectFn(){
       this.popShow = false;
       this.searchListFn();
@@ -158,7 +227,7 @@ export default {
       }
     },
     setClassItem(item){
-      this.form.class = item;
+      this.formArr[this.currentIndex].class = item;
       this.popShow=false;
     },
 
@@ -173,48 +242,61 @@ export default {
 
       if(wekDay.code == 200){
         this.timeList = wekDay.data;
-        this.currentTime = this.timeList[0]
+        this.formArr[this.currentIndex].currentTime = this.timeList[0]
       }
       if(clsList.code == 200){
         this.classList = clsList.data;
       }
 
     },
-    getTab(item){
-      this.currentTime = item;
+    getTab(item,idx){
+
+      this.formArr[this.currentIndex].currentTime = item;
+      this.formArr[this.currentIndex].currentTime.index = idx;
+
     },
     getSelectTime(time){
-      if(this.selectTime[time.id]){
-        this.$set(this.selectTime,time.id,null)
+      if(this.formArr[this.currentIndex].selectTime[time.id]){
+        this.$set(this.formArr[this.currentIndex].selectTime,time.id,null);
       }else
-      this.$set(this.selectTime,time.id,time.id)
+      this.$set(this.formArr[this.currentIndex].selectTime,time.id,time.id);
+    },
+    getExpectData(time){
+      let str = "";
+      for(let key in time){
+        if(time) str = str ? str + "," + key : key;
+      }
+      return str;
     },
     save(){
-
-      let str = "";
-      for(let key in this.selectTime){
-        if(this.selectTime[key]) str = str ? str + "," + key : key;
-      }
-      let error ;
-      error || this.form.class.id || (error = "请选择课程");
-      error || str || (error = "请选择授课时间");
-      error || this.form.jiaoshi_type || (error = "请选择教室类型");
-      error || this.form.yupairenshu || (error = "请填写预排人数");
-      if(error){
-        this.$notify({ type: 'danger', message: error });
+      if(!this.error(this.formArr[this.currentIndex],this.currentIndex)){
         return;
       }
-      let param = {
-        course_id:this.form.class.id,
-        expect_date:str,
-        jiaoshi_type:this.form.jiaoshi_type,
-        loucengyaoqiu:this.form.loucengyaoqiu,
-        teache_id:this.form.teacher.id,
-        yupairenshu:this.form.yupairenshu,
-        xiaoxi_id:this.id || "5"
-      };
+      let param = [];
+      for(let i = 0; i < this.formArr.length; i ++){
+        let item = this.formArr[i];
+        let error = this.error(item,i);
+        if(!error){
+          return;
+        }
+        let str = this.getExpectData(item.selectTime);
+        let obj = {
+            course_id:item.class.id,
+            expect_date:str,
+            jiaoshi_type:item.jiaoshi_type,
+            loucengyaoqiu:item.loucengyaoqiu,
+            teache_id:this.teacher.id,
+            yupairenshu:item.yupairenshu,
+            xiaoxi_id:this.id || "5"
+        };
+        param.push(obj)
+      }
+      if(param.length){
 
-      savePk(param).then((res)=>{
+      }else{
+        this.$notify({ type: 'danger', message: "请先排课" });
+      }
+      saveListPk(param).then((res)=>{
         if(res.code == 200){
           this.dialogShow = true;
         }

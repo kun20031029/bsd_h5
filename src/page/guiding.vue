@@ -3,7 +3,7 @@
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">本科新生导师</div>
-        <div class="tit-desc">{{type ? "请填写导师申报指导意向" : "请填写学生意向请求"}}</div>
+        <div class="tit-desc">{{disabled ? "": "请填写"}}{{type ? "导师申报指导意向" : "学生意向请求"}}</div>
       </div>
       <div class="pic">
         <img src="../assets/img/i5.png">
@@ -18,12 +18,17 @@
 
           <van-cell-group inset>
 
-            <van-field v-model="form.yanjiufangxiang" input-align="right"  placeholder="研究方向" type="text" label="研究方向" />
+            <van-field v-model="form.yanjiufangxiang"
+                       input-align="right"
+                       placeholder="研究方向"
+                       :disabled="disabled"
+                       type="text" label="研究方向" />
             <van-field v-model="form.zaiyanxiangmu"
                        input-align="left"
                        placeholder="在研项目"
                        type="textarea"
                        rows="4"
+                       :disabled="disabled"
                        label="在研项目" />
           </van-cell-group>
           <van-cell-group inset>
@@ -31,13 +36,14 @@
             <van-field input-align="right"
                        placeholder="指导学生数量"
                        type="text"
+                       :disabled="disabled"
                        label="指导学生数量" >
               <template #input>
-                <van-stepper v-model="form.zhidaoshuliang" input-width="60px" button-size="32px" />
+                <van-stepper v-model="form.zhidaoshuliang" :disabled="disabled" input-width="60px" button-size="32px" />
               </template>
             </van-field>
 
-            <van-field v-model="form.teacher.name"
+            <van-field v-model="teacher.name"
                        input-align="right"
                        placeholder="老师"
                        type="text"
@@ -70,11 +76,12 @@
                        readonly
                        @click="selectTeacher('teacher2')"
                        label="期望导师" />
-            <van-field v-model="form.student.name"
+            <van-field v-model="student.name"
                        input-align="right"
                        placeholder="学生"
                        type="text"
                        readonly
+                       disabled
                        label="学生" />
 
           </van-cell-group>
@@ -84,10 +91,10 @@
       </div>
     </div>
     <div  class="bottom-bd bottom-box-fixed" v-if="!type">
-      <van-button type="primary" block round class="c-btn-blue" @click="save()">提交</van-button>
+      <van-button type="primary" block round class="c-btn-blue" @click="save()" v-if="!disabled">提交</van-button>
     </div>
     <div  class="bottom-bd bottom-box-fixed" v-else>
-      <van-button type="primary" block round class="c-btn-blue" @click="saveStu()">提交</van-button>
+      <van-button type="primary" block round class="c-btn-blue" @click="saveStu()"  v-if="!disabled">提交</van-button>
     </div>
 
     <selectPage v-if="selectShowIf"
@@ -108,7 +115,7 @@
 
 <script>
 
-import { saveNumStudent,getCommonList,selectTeacher } from '@/api/api'
+import { saveNumStudent,getCommonList,selectTeacher ,getNoticeDetail} from '@/api/api'
 import selectPage from '@/components/select'
 import mydialog from '@/components/mydialog'
 import teacherPage from '@/components/teacherDetail'
@@ -130,29 +137,43 @@ export default {
       id : '',
       curentKey:'',
       form:{
-        teacher:{},
         teacher1:{},
         teacher2:{}
       },
       searchList:[],
       dialogShow:false,
-      searchParam:{}
-
+      searchParam:{},
+      keyStatu:'',
+      student:{},
+      teacher:{},
+      disabled:false
     }
   },
 
   created(){
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
+    this.disabled = this.$route.query.statu ? true:false;
     //获取当前老师
     let user = localStorage.getItem("USER");
 
 
-    let keyStatu = this.type ? "student" : "teacher";
+    this.keyStatu = this.type ? "student" : "teacher";
 
-    this.form[keyStatu] = JSON.parse(user) || {};
+    this[this.keyStatu] = JSON.parse(user) || {};
+
+    this.getDetail();
   },
   methods : {
+    async getDetail(){
+      let res = await getNoticeDetail({xiaoxi_id:this.id},this.type);
+      if(res.data && res.data.length){
+        this.form = res.data[0];
+        this.form.teacher2 = this.form.kexuanDaoshi || {};
+        this.form.teacher1 = this.form.qiwangDaoshi || {};
+      }
+
+    },
     closeSelectPageFn(){
       this.popShow=false;
       this.searchListFn();
@@ -169,6 +190,9 @@ export default {
       }
     },
     selectTeacher(key){
+      if(this.disabled){
+        return;
+      }
       this.curentKey = key;
       this.popShow = !this.popShow;
       this.selectShowIf = true;
@@ -202,7 +226,7 @@ export default {
         zaiyanxiangmu:this.form.zaiyanxiangmu,
         zhidaoshuliang:this.form.zhidaoshuliang,
         xiaoxi_id:this.id,
-        techer_id:this.form.teacher.id
+        techer_id:this.teacher.id
       };
 
       saveNumStudent(param).then((res)=>{

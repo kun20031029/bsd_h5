@@ -4,6 +4,7 @@
       <img src="../assets/img/logo.png">
       <div class="logo-tit">
         欢迎登录北师大心理学部
+        <p style="font-size:16px; font-weight: normal;padding-top: 10px">({{type ? "学生端" : "老师端"}})</p>
       </div>
     </div>
     <div class="logo-form">
@@ -59,12 +60,13 @@ export default {
       code:'123456',
       disabled:false,
       disabledLogin:false,
-      text:'获取验证码'
+      text:'获取验证码',
+      type:false,
     }
   },
 
   created(){
-
+    this.type = this.$route.query.type;
   },
   methods : {
       async getCode(){
@@ -100,6 +102,7 @@ export default {
         this.disabledLogin = true;
 
         let type = this.$route.query.type;
+        this.type = type;
         localStorage.clear();
         let res = await login({
           mobile : this.mobile,

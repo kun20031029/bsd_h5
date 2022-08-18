@@ -12,7 +12,7 @@
     <ul class="taskList" v-if="list.length">
       <li class="block-w" v-for="(item,idx) in list" @click="itemClick(item)">
         <van-row>
-          <van-col span="18" class="font15">{{ item.biaoti }}</van-col>
+          <van-col span="18" class="font15 overCell ">{{ item.biaoti }}</van-col>
           <van-col span="6" class="font12 fc3 ttRight">{{ item.shijian | DATEFORMATE("mm月dd日") }}</van-col>
           <van-col span="24" class="font12 fc3 overCell ">{{ item.neirong }}</van-col>
         </van-row>
