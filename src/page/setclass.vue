@@ -296,11 +296,19 @@ export default {
       }else{
         this.$notify({ type: 'danger', message: "请先排课" });
       }
-      saveListPk(param).then((res)=>{
-        if(res.code == 200){
-          this.dialogShow = true;
-        }
+      this.$dialog.confirm({
+        title:'提示',
+        message:`当前总提交${param.length}个排课任务!`
+      }).then(()=> {
+        saveListPk(param).then((res)=>{
+          if(res.code == 200){
+            this.dialogShow = true;
+          }
+        })
+      }).catch(()=>{
+
       })
+
 
     },
     closeDialog(type){

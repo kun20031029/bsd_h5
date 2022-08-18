@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container ct-flex-box bottom-padding-fixed">
+  <div class="home-container ct-flex-box " :class="{'bottom-padding-fixed':!disabled}">
     <div class="cc-head block-w">
       <div class="txt">
         <div class="title">北师大心理学部</div>
@@ -84,7 +84,7 @@
 
 <script>
 
-import { getPaikeResult } from '@/api/api'
+import { getPaikeResult,taskResultSave } from '@/api/api'
 
 
 export default {
