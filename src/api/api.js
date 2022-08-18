@@ -50,6 +50,11 @@ export function savePk(param){
   let url = "/teacher/paike/savePaike";
   return request.post(url,param)
 }
+//提交多个排课要求
+export function saveListPk(param){
+  let url = "/teacher/paike/savePaikeList";
+  return request.post(url,param)
+}
 //提交老师接收的学生数量
 export function saveNumStudent(param){
   let url = "/teacher/daoshi/addXueShengNum";
@@ -80,4 +85,18 @@ export function getNoticeObj (type){
 export function getApi(){
   let url = "/common/gongju/appParams";
   return request.get(url)
+}
+//消息类型
+export function getLeiXingList(param){
+  let url = "/common/gongju/leixingList";
+  return request.post(url,param)
+}
+
+//查看详情
+export function getNoticeDetail(param,type){
+  let url = "/teacher/daoshi/getXinshengNum";
+  if(type){
+    url = '/student/studentDaoshi/getXuanDaoshi'
+  }
+  return request.post(url,param)
 }

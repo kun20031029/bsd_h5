@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import { getApi } from '@/api/api'
+import { getApi,getLeiXingList } from '@/api/api'
 
 Vue.prototype.$getApi = async function (){
   let host = localStorage.getItem("host");
@@ -12,6 +12,18 @@ Vue.prototype.$getApi = async function (){
     }
   }
   return host;
+}
+Vue.prototype.$getCommonType = async function(param,type){
+  let listRes = await getLeiXingList(param);
+  if(listRes.code == 200){
+    let arr = listRes.data || [];
+    for(var i = 0; i <　arr.length; i ++){
+      let temp = arr[i];
+      if(type == temp.leixing){
+          return temp;
+      }
+    }
+  }
 }
 Vue.prototype.$importFile = function(res,fileType,fileName){
 
