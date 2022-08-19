@@ -46,7 +46,7 @@ router.beforeEach(async(to, from, next) => {
       // in the free login whitelist, go directly
       next()
     } else {
-      alert("token没有了，所以跳登录页")
+      // alert("token没有了，所以跳登录页")
       // other pages that do not have permission to access are redirected to the login page.
       // next()
       next(`/login?redirect=${to.path}`)

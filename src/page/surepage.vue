@@ -26,17 +26,23 @@
     </div>
 
     <div  class="bottom-bd bottom-box-fixed ttCenter">
-      <div v-if="data.status == 0">
+      <div v-if="data.task_status == 0">
         <div v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result'">
           <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
         </div>
         <div v-else>
-          <van-button  type="default" plain round  class="c-btn-gray" @click="save(1)">不参加</van-button>
-          <van-button type="primary"  round class="c-btn-blue" @click="save(2)">参加</van-button>
+          <van-button  type="default" plain round  class="c-btn-gray" @click="save(2)" style="width:40%;margin:0 10px 0 0;">不参加</van-button>
+          <van-button type="primary"  round class="c-btn-blue" @click="save(1)" style="width:40%;margin:0 0 0 10px;">参加</van-button>
         </div>
       </div>
       <div v-else>
-        <van-button type="primary" block  round class="c-btn-blue" disabled @click="save(2)">{{ data.zhuangtai == 2 ? "未参加" : "已参加" }}</van-button>
+        <div v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result'">
+          <van-button type="primary" block  round class="c-btn-blue" disabled >{{ data.zhuangtai == 2 ? "未确认" : "已确认" }}</van-button>
+        </div>
+        <div v-else>
+          <van-button type="primary" block  round class="c-btn-blue" disabled >{{ data.zhuangtai == 2 ? "未参加" : "已参加" }}</van-button>
+        </div>
+
       </div>
 
 

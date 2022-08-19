@@ -40,7 +40,7 @@
       <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
     </div>
     <div  class="bottom-bd bottom-box-fixed" v-else>
-      <van-button type="primary" block round class="c-btn-blue" disabled >已参加</van-button>
+      <van-button type="primary" block round class="c-btn-blue" disabled >已确认</van-button>
     </div>
 
 

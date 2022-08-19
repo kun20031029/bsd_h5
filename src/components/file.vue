@@ -27,7 +27,7 @@ export default{
     downloadEvt(url, fileName = '未知文件') {
       const el = document.createElement('a');
       el.style.display = 'none';
-      el.setAttribute('target', '_blank');
+      // el.setAttribute('target', '_blank');
       /**
        * download的属性是HTML5新增的属性
        * href属性的地址必须是非跨域的地址，如果引用的是第三方的网站或者说是前后端分离的项目(调用后台的接口)，这时download就会不起作用。
