@@ -300,3 +300,10 @@ div:focus {
   height: 3px;
   display: block;
 }
+
+.van-field--disabled .van-field__label,
+.van-field__control:disabled,
+.van-stepper__input:disabled{
+  color:#646566 !important;
+  -webkit-text-fill-color:#646566 !important
+}

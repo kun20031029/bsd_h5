@@ -164,7 +164,7 @@ export default {
   },
   methods : {
     clear(item,index){
-      if(index < this.currentIndex){
+      if(index <= this.currentIndex){
         this.currentIndex --;
       }
 
@@ -401,5 +401,12 @@ export default {
   border:1px solid #2E6CFF;
   border-radius: 24px;
   height:32px;
+}
+.list-reslt li .van-icon-close{
+  /*position:absolute;*/
+  font-size:16px;
+  margin-left: 10px;
+  line-height: inherit;
+
 }
 </style>

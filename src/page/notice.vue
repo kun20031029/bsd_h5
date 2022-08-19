@@ -36,8 +36,11 @@
 
 
     </div>
-    <div  class="bottom-bd bottom-box-fixed">
+    <div  class="bottom-bd bottom-box-fixed" v-if="!disabled">
       <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
+    </div>
+    <div  class="bottom-bd bottom-box-fixed" v-else>
+      <van-button type="primary" block round class="c-btn-blue" disabled >已参加</van-button>
     </div>
 
 
@@ -57,6 +60,7 @@ export default {
     return {
       type:'',
       id : '',
+      disabled:false,
       data:{
       },
     }
@@ -65,6 +69,7 @@ export default {
   created(){
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
+    this.disabled = this.$route.query.statu ? true:false;
     this.key = this.type ? "teacher":"student";
     this.getData();
   },

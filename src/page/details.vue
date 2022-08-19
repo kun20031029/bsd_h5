@@ -28,11 +28,9 @@
       </div>
 
     </div>
-    <div class="bottom-bd bottom-box-fixed">
+    <div class="bottom-bd bottom-box-fixed" >
       <van-button type="primary" block round class="c-btn-blue" v-if="data.task_status == 0"  @click="goto()">处理</van-button>
-      <van-button type="primary" block round class="c-btn-blue"
-                  v-if="data.task_status == 1 && (data.leixing == 'benke_xinsheng_daoshi' || data.leixing == 'benke_xinsheng_daoshi_to_xuesheng' || data.leixing=='paike_task_result')"
-                  @click="goto(1)">查看</van-button>
+      <van-button type="primary" block round class="c-btn-blue" v-else @click="goto(1)">查看</van-button>
     </div>
 
   </div>
@@ -77,37 +75,18 @@ export default {
     goto(sign){
       let item = this.data;
 
-      if(sign){
-        if(item.leixing == "benke_xinsheng_daoshi" || item.leixing == "benke_xinsheng_daoshi_to_xuesheng"){
-          this.$router.push({
-            path : "/guiding",
-            query : {
-              type : this.type,
-              id: this.id,
-              statu:1
-            }
-          })
-        }else if(item.leixing == "paike_task_result"){
-          this.$router.push({
-            path : "/classResult",
-            query : {
-              type : this.type,
-              id: this.id,
-              statu:1
-            }
-          })
-        }
 
-        return;
-      }
-      if(item.task_status != 0){
-        return;
-      }
+      // if(item.task_status != 0){
+      //   return;
+      // }
       let url = "",param = {};
       switch (item.leixing){
 
         case "paike_task":  //排课任务
         case "paike_task_yanjiusheng":
+          if(sign){
+            url = '/classResult'
+          }else
           url = "/setclass"
           break;
         case "benke_xinsheng_daoshi":
@@ -130,7 +109,8 @@ export default {
         path : url,
         query : {
           type : this.type,
-          id: this.id
+          id: this.id,
+          statu:sign
         }
       })
     }

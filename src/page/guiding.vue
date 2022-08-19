@@ -39,7 +39,7 @@
                        :disabled="disabled"
                        label="指导学生数量" >
               <template #input>
-                <van-stepper v-model="form.zhidaoshuliang" :disabled="disabled" max="8" min="1"  input-width="60px" button-size="32px" />
+                <van-stepper v-model="form.zhidaoshuliang" :disabled="disabled" max="6" min="1"  input-width="60px" button-size="32px" />
               </template>
             </van-field>
 
