@@ -94,6 +94,7 @@ export default {
           url = "/guiding"
           break;
         case "paike_task_result":
+        case "yanjiusheng_paike_task_result":
           url = "/classResult"
           break;
         case "xuesheng_benke_daoshi_jieguo":

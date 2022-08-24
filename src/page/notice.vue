@@ -21,10 +21,10 @@
               <van-row class="v-item-bd">
                 <van-col span="18" >
                   <span class="font15">{{ item.name || item.techer_name }}</span>
-                  <span class="font12 fc3"> {{item.tags || item.yanjiufangxiang}}</span>
+                  <span class="font12 fc3"> {{item.grade || item.yanjiufangxiang}}</span>
                 </van-col>
                 <van-col span="6" class="ttRight">
-                  <span class="font15" style="color:#2E6CFF">{{ item.xuehao || item.code }}</span>
+                  <span class="font15" style="color:#2E6CFF">{{ item.xuehao ||  (item.teacher ? item.teacher.code : "--") || "--"  }}</span>
                 </van-col>
                 <van-col span="24" class="font12">{{ item.email ? item.email : (item.teacher ? item.teacher.email : "--") }}</van-col>
               </van-row>

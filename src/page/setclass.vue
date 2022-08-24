@@ -138,7 +138,9 @@ export default {
       formArr:[{
           class:{},
 
-          currentTime:{ },
+          currentTime:{
+            index : 0
+          },
           selectTime:{},
       }],
       currentIndex:0,
@@ -242,7 +244,8 @@ export default {
 
       if(wekDay.code == 200){
         this.timeList = wekDay.data;
-        this.formArr[this.currentIndex].currentTime = this.timeList[0]
+        this.formArr[this.currentIndex].currentTime = this.timeList[0];
+        this.formArr[this.currentIndex].currentTime.index = 0;
       }
       if(clsList.code == 200){
         this.classList = clsList.data;
