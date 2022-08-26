@@ -9,7 +9,7 @@
         <img src="../assets/img/i5.png">
       </div>
     </div>
-    <div class="ct-flex-content">
+    <div class="ct-flex-content" v-if="data.length">
       <div class="pad">
         <div class="list-reslt mb10">
           <ul>
@@ -74,6 +74,10 @@
       </div>
 
 
+    </div>
+    <div v-else class="taskList list-empty">
+      <img src="../assets/img/e2.png">
+      <div class="font13 fc3">暂无数据</div>
     </div>
     <div class="bottom-bd bottom-box-fixed" v-if="!disabled">
       <van-button type="primary" block round class="c-btn-blue" @click="save()">确认</van-button>

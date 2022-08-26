@@ -17,7 +17,7 @@
             <van-col span="6" class="font12 fc3 ttRight">{{ data.shijian | DATEFORMATE("mm月dd日") }}</van-col>
           </van-row>
           <van-row>
-            <van-col span="24" class="font12 fc3 ">{{ data.neirong }}</van-col>
+            <van-col span="24" class="font12 fc3 " style="  line-height: 2em;  word-break: keep-all;overflow-wrap: break-word;">{{ data.neirong }}</van-col>
           </van-row>
         </div>
         <div class="block-w  mb20" v-if="data.fujian">

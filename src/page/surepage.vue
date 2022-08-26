@@ -15,7 +15,7 @@
           <div class="s-hd">
             {{ data.biaoti }}
           </div>
-          <div class="s-ct font15">
+          <div class="s-ct font15" style="  word-break: keep-all;overflow-wrap: break-word;">
             {{ data.neirong }}
           </div>
 
