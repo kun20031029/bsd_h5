@@ -84,10 +84,7 @@ export default {
 
         case "paike_task":  //排课任务
         case "paike_task_yanjiusheng":
-          if(sign){
-            url = '/classResult'
-          }else
-          url = "/setclass"
+          url = '/setclass'
           break;
         case "benke_xinsheng_daoshi":
         case "benke_xinsheng_daoshi_to_xuesheng":

@@ -169,8 +169,8 @@ export default {
       let res = await getNoticeDetail({xiaoxi_id:this.id},this.type);
       if(res.data && res.data.length){
         this.form = res.data[0];
-        this.form.teacher2 = this.form.kexuanDaoshi || {};
-        this.form.teacher1 = this.form.qiwangDaoshi || {};
+        this.form.teacher1 = this.form.kexuanDaoshi || {};
+        this.form.teacher2 = this.form.qiwangDaoshi || {};
       }
 
     },
@@ -240,8 +240,8 @@ export default {
       if( (this.form.teacher1 && this.form.teacher1.id)){
         selectTeacher({
           xiaoxi_id:this.id,
-          teacher_id:this.form.teacher2.id,
-          beixuan_techer_id:this.form.teacher1.id
+          teacher_id:this.form.teacher1.id,
+          beixuan_techer_id:this.form.teacher2.id
         }).then((res)=>{
           if(res.code == 200){
             this.dialogShow = true;

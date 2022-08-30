@@ -1,6 +1,6 @@
 <template>
-  <div class="home-container ct-flex-box bottom-padding-fixed">
-    <div class="cc-head block-w">
+  <div class="home-container ct-flex-box " :class="{'bottom-padding-fixed': !disabled }">
+    <div class="cc-head block-w mb10">
       <div class="txt">
         <div class="title">排课意向</div>
         <div class="tit-desc">2022上学期老师排课时间意向采集</div>
@@ -11,12 +11,12 @@
     </div>
     <div class="list-reslt mb10" style="padding:0 20px">
       <ul>
-        <li v-for="(item,index) in formArr" :class="{'on': index == currentIndex }" @click="clickItem(item,index)">
-          排课{{ index+1 }}
-          <van-icon name="close" v-if="formArr.length!=1" @click.stop="clear(item,index)"></van-icon>
+        <li v-for="(item,index) in formArr" class="p-tt" :class="{'on': index == currentIndex }" @click="clickItem(item,index)">
+          排课任务{{ index+1 }}
+          <van-icon name="close" v-if=" disabled ?  !disabled :  formArr.length!=1" :disabled="disabled" @click.stop="clear(item,index)"></van-icon>
         </li>
-        <li>
-          <van-button icon="plus" type="primary" small class="c-btn-blue" style="height:30px" @click="addFromFn()" >
+        <li class="btn-li">
+          <van-button icon="plus" type="primary" round small class="c-btn-blue" style="width:30px;height:30px;" :disabled="disabled" @click="addFromFn()" >
           </van-button>
         </li>
       </ul>
@@ -33,10 +33,10 @@
                        v-model="formArr[currentIndex].class.chinese_name"
                        label="课程名称" >
               <template #button>
-                <van-button size="small"  type="default" plain class="s-btn" @click="selectClassFn()" >课程选择</van-button>
+                <van-button size="small"  type="default" plain class="s-btn" @click="selectClassFn()" :disabled="disabled" >课程选择</van-button>
               </template>
             </van-field>
-            <van-field v-model="formArr[currentIndex].class.xuefen" input-align="right" readonly placeholder="课程学分" type="number" label="课程学分" />
+            <van-field v-model="formArr[currentIndex].class.xuefen" input-align="right" readonly placeholder="课程学分" :disabled="disabled" type="number" label="课程学分" />
           </van-cell-group>
         </div>
         <div class="block-w mb10" style="padding-bottom:10px">
@@ -44,13 +44,17 @@
             期望授课时间
           </div>
           <ul class="weeb-bd mb10">
-            <li v-for="(item,index) in timeList" :class="{'on':index == formArr[currentIndex].currentTime.index }" @click="getTab(item,index)">
+
+            <li v-for="(item,index) in timeList" :class="{'on':index == timeIndex }" @click="getTab(item,index)">
 
               {{item.fenlei.fenlei}}
             </li>
           </ul>
-          <div class="wek-btn-bd">
-            <van-button size="small"   v-for="(item,index) in formArr[currentIndex].currentTime.dataList" :class="{'on': formArr[currentIndex].selectTime[item.id] == item.id }" type="default" plain  @click="getSelectTime(item)">
+          <div class="wek-btn-bd"  v-if="timeList[timeIndex] && timeList[timeIndex].dataList" >
+<!--            {{timeList[timeIndex]}}-->
+
+            <van-button size="small" v-for="(item,index) in timeList[timeIndex].dataList" :class="{'on': formArr[currentIndex].selectTime[item.id] == item.id }" type="default" plain  @click="getSelectTime(item,index)">
+<!--            <van-button size="small"   v-for="(item,index) in formArr[currentIndex].currentTime.dataList" :class="{'on': formArr[currentIndex].selectTime[item.id] == item.id }" type="default" plain  @click="getSelectTime(item)">-->
               {{ item.shijian }}
               <van-icon slot="icon" name="time"></van-icon>
             </van-button>
@@ -60,9 +64,9 @@
           <div class="form-tit require">
             教室类型
           </div>
-          <van-radio-group v-model="formArr[currentIndex].jiaoshi_type">
+          <van-radio-group v-model="formArr[currentIndex].jiaoshi_type" :disabled="disabled" class="jsTypeRadio" >
             <van-cell-group inset>
-              <van-cell :title="item.mingzi" v-for="(item, index) in classList" clickable @click="formArr[currentIndex].jiaoshi_type = item.id ">
+              <van-cell :title="item.mingzi" v-for="(item, index) in classList" clickable @click="statu ? false : (formArr[currentIndex].jiaoshi_type = item.id) ">
                 <template #right-icon>
                   <van-radio :name="item.id" />
                 </template>
@@ -77,7 +81,7 @@
           </div>
           <van-cell-group inset>
 
-            <van-field v-model="formArr[currentIndex].yupairenshu" input-align="right" placeholder="预排人数" type="number" label="预排人数" />
+            <van-field v-model="formArr[currentIndex].yupairenshu" input-align="right" :disabled="disabled"  placeholder="预排人数" type="number" label="预排人数" />
           </van-cell-group>
         </div>
         <div class="block-w mb10">
@@ -86,7 +90,7 @@
           </div>
           <van-cell-group inset>
 
-            <van-field v-model="formArr[currentIndex].loucengyaoqiu" input-align="right" placeholder="楼层要求" type="text" label="楼层要求" />
+            <van-field v-model="formArr[currentIndex].loucengyaoqiu" input-align="right" :disabled="disabled"  placeholder="楼层要求" type="text" label="楼层要求" />
           </van-cell-group>
         </div>
         <div class="block-w mb10">
@@ -101,8 +105,8 @@
 
       </div>
     </div>
-    <div  class="bottom-bd bottom-box-fixed">
-      <van-button type="primary" block round class="c-btn-blue" @click="save()">提交</van-button>
+    <div  class="bottom-bd bottom-box-fixed" v-if="!disabled">
+      <van-button type="primary" block round class="c-btn-blue" @click="save()" :disabled="disabled"  >提交</van-button>
     </div>
 
 
@@ -119,7 +123,7 @@
 
 <script>
 
-import { getwekDayClass,getclasstype,savePk,getCommonList ,saveListPk} from '@/api/api'
+import { getwekDayClass,getclasstype,savePk,getCommonList ,saveListPk,getPaikeInfo} from '@/api/api'
 import selectPage from '@/components/select'
 import mydialog from '@/components/mydialog'
 
@@ -135,6 +139,7 @@ export default {
       popShow:false,
       type:'',
       id : '',
+      statu:'',
       formArr:[{
           class:{},
 
@@ -144,12 +149,14 @@ export default {
           selectTime:{},
       }],
       currentIndex:0,
+      timeIndex:0,
       teacher:{},
 
       timeList : [],
       classList : [],
       dialogShow:false,
       searchList:[],
+      disabled:false,
 
     }
   },
@@ -157,12 +164,15 @@ export default {
   created(){
     this.type = this.$route.query.type;
     this.id = this.$route.query.id;
+    this.statu = this.$route.query.statu;
+    this.disabled = this.statu ? true:false;
     //获取当前老师
     let user = localStorage.getItem("USER");
     this.teacher = JSON.parse(user) || {};
 
 
     this.getData();
+
   },
   methods : {
     clear(item,index){
@@ -198,7 +208,7 @@ export default {
       //   return;
       // }
       this.currentIndex = index;
-
+      this.timeIndex = 0;
     },
     addFromFn(){
       if(!this.error(this.formArr[this.currentIndex])){
@@ -239,7 +249,43 @@ export default {
       // 选教室
       let clsList = await getclasstype();
       //选课
-      this.searchListFn();
+      await this.searchListFn();
+      // this.searchList
+      if(this.statu == 1){
+        let details = await getPaikeInfo({
+          xiaoxi_id:this.id
+        });
+        details = details.data;
+        for(let i = 0; i < details.length; i ++){
+          let temp = details[i];
+          let eD = temp.expect_date,param = {};
+          eD = eD.split(",");
+          let classParam = {};
+          this.searchList.forEach((value,index,ary)=>{
+            if(value.id == temp.course_id){
+              classParam = value;
+            }
+          })
+          for(let j = 0; j < eD.length; j ++){
+            let t = eD[j];
+            param[t] = t;
+          }
+          this.$set(this.formArr,i,{
+            class: classParam,
+            currentTime: {
+              index : i
+            },
+            selectTime:param,
+            ...temp
+          })
+          this.teacher = {
+            name : temp.tianbaoren
+          }
+        }
+
+      }
+
+
 
 
       if(wekDay.code == 200){
@@ -256,13 +302,16 @@ export default {
 
       this.formArr[this.currentIndex].currentTime = item;
       this.formArr[this.currentIndex].currentTime.index = idx;
-
+      this.timeIndex = idx;
     },
-    getSelectTime(time){
+    getSelectTime(time,index){
+      if(this.statu) return;
       if(this.formArr[this.currentIndex].selectTime[time.id]){
         this.$set(this.formArr[this.currentIndex].selectTime,time.id,null);
       }else
       this.$set(this.formArr[this.currentIndex].selectTime,time.id,time.id);
+
+
     },
     getExpectData(time){
       let str = "";
@@ -332,11 +381,16 @@ export default {
 
 <style >
 @import "../assets/style/css.css";
+.jsTypeRadio .van-radio__icon--disabled.van-radio__icon--checked .van-icon{
+  color: #fff;
+  background-color: #1989fa;
+  border-color: #1989fa;
+}
 </style>
 <style scoped>
 
 .pad-class{
-  padding: 10px 20px;
+  padding: 0 15px 20px 15px;
 }
 
 .block-w{
@@ -405,6 +459,27 @@ export default {
   border-radius: 24px;
   height:32px;
 }
+.list-reslt .p-tt{
+  background:rgba(46, 108, 255, 0.1000);
+  border-radius: 16px;
+  height: 33px;
+  line-height: 33px;
+  font-size: 15px;
+  color:#2E6CFF;
+  padding: 0 10px;
+}
+.list-reslt .p-tt.on{
+  border:1px solid #2E6CFF;
+  background:#fff;
+}
+
+.list-reslt  .btn-li{
+  line-height: 33px;
+  top:-5px
+}
+.list-reslt li.on:after{
+  content:none;
+}
 .list-reslt li .van-icon-close{
   /*position:absolute;*/
   font-size:16px;
@@ -412,4 +487,5 @@ export default {
   line-height: inherit;
 
 }
+
 </style>

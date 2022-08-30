@@ -73,6 +73,11 @@ export function selectTeacher(param){
 //排课结果 对象：老师
 export function getPaikeResult(param){
   let url = "/teacher/paike/myCourseResult";
+  // let url = "/teacher/paike/getPaikeInfo"
+  return request.post(url,param)
+}
+export function getPaikeInfo(param){
+  let url = "/teacher/paike/getPaikeInfo"
   return request.post(url,param)
 }
 //老师指导的学生列表   学生的老师列表
