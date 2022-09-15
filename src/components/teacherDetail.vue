@@ -31,9 +31,9 @@
       <div class="i-txt">
         {{ item.zaiyanxiangmu }}
       </div>
-      <div class="i-tt">
-        指导计划：
-      </div>
+<!--      <div class="i-tt">-->
+<!--        指导计划：-->
+<!--      </div>-->
 
     </div>
 

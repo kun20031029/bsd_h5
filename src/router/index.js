@@ -14,6 +14,8 @@ import notice from '@/page/notice'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  base:'/sxdd',
   routes: [
     {
       path: '/',

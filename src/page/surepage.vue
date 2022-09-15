@@ -2,7 +2,7 @@
   <div class="home-container ct-flex-box bottom-padding-fixed">
     <div class="cc-head block-w">
       <div class="txt">
-        <div class="title">学术硕士招生</div>
+        <div class="title">{{ title || '--' }}</div>
         <div class="tit-desc">请{{ type == "1" ? "学生":"老师"}}确认</div>
       </div>
       <div class="pic">
@@ -15,7 +15,8 @@
           <div class="s-hd">
             {{ data.biaoti }}
           </div>
-          <div class="s-ct font15" style="  word-break: keep-all;overflow-wrap: break-word;">
+          <div class="s-ct font15" style="  word-break: break-all;overflow-wrap: break-word;  ">
+
             {{ data.neirong }}
           </div>
 
@@ -27,7 +28,7 @@
 
     <div  class="bottom-bd bottom-box-fixed ttCenter">
       <div v-if="data.task_status == 0">
-        <div v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result'">
+        <div v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result' || data.leixing=='xuesheng_changyong_queren_tongzhi'">
           <van-button type="primary" block round class="c-btn-blue" @click="save(1)">确认</van-button>
         </div>
         <div v-else>
@@ -36,7 +37,7 @@
         </div>
       </div>
       <div v-else>
-        <div v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result'">
+        <div v-if="data.leixing=='paike_task_result' || data.leixing=='laoshi_benke_daoshi_jieguo' || data.leixing=='yanjiusheng_paike_task_result' || data.leixing=='xuesheng_changyong_queren_tongzhi'">
           <van-button type="primary" block  round class="c-btn-blue" disabled >{{ data.zhuangtai == 2 ? "未确认" : "已确认" }}</van-button>
         </div>
         <div v-else>
@@ -66,7 +67,8 @@ export default {
       type:'',
       id : '',
       data:{},
-      disabled:false
+      disabled:false,
+      title : ''
     }
   },
 
@@ -84,6 +86,10 @@ export default {
       if(res.code == 200){
         this.data = res.data;
       }
+      let listRes = await this.$getCommonType({
+        mubiao:this.type ? "2" : "1"
+      },this.data.leixing);
+      this.title = listRes.mingcheng;
     },
     save(statu){
       taskResultSave({"xiaoxi_id":this.id,"zhuangtai":statu},this.type).then((res)=>{
@@ -129,7 +135,7 @@ export default {
 }
 .dt-ct .s-hd{
   background:url(../assets/img/bg2.png) no-repeat center center;
-  background-size: 100%;
+  background-size: 100% 100%;
   min-height: 100px;
   text-align: center;
   display: flex;
@@ -137,7 +143,7 @@ export default {
   justify-content: center;
   color:#fff;
   font-size:21px;
-  padding: 0 20px
+  padding: 10px 20px;
 }
 .dt-ct .s-ct{
   min-height: 140px;
@@ -145,7 +151,7 @@ export default {
   align-items: center;
   justify-content: center;
   word-break: break-all;
-  padding: 0 20px 20px 20px;
+  padding: 20px;
 }
 .bottom-bd-more .van-button{
   width: 40%;
